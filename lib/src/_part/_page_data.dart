@@ -28,38 +28,34 @@ class DefaultPageData<I> extends PageData<I> {
   @override
   PaginationData? get pagination => _pagination;
 
-  DefaultPageData({
-    required List<I> items,
-    required PaginationData? pagination,
-  })  : _items = items,
-        _pagination = pagination;
+  DefaultPageData({required List<I> items, required PaginationData? pagination})
+    : _items = items,
+      _pagination = pagination;
 
-  DefaultPageData.items({
-    required List<I> items,
-  })  : _items = items,
-        _pagination = PaginationData(
-          currentPage: 1,
-          pageSize: items.length,
-          totalItems: items.length,
-          totalPages: 1,
-        );
+  DefaultPageData.items({required List<I> items})
+    : _items = items,
+      _pagination = PaginationData(
+        currentPage: 1,
+        pageSize: items.length,
+        totalItems: items.length,
+        totalPages: 1,
+      );
 
-  DefaultPageData.item({
-    required I item,
-  })  : _items = [item],
-        _pagination = PaginationData(
-          currentPage: 1,
-          pageSize: 1,
-          totalItems: 1,
-          totalPages: 1,
-        );
+  DefaultPageData.item({required I item})
+    : _items = [item],
+      _pagination = PaginationData(
+        currentPage: 1,
+        pageSize: 1,
+        totalItems: 1,
+        totalPages: 1,
+      );
 
   DefaultPageData.empty()
-      : _items = [],
-        _pagination = PaginationData(
-          currentPage: 1,
-          pageSize: 1,
-          totalItems: 0,
-          totalPages: 0,
-        );
+    : _items = [],
+      _pagination = PaginationData(
+        currentPage: 1,
+        pageSize: 1,
+        totalItems: 0,
+        totalPages: 0,
+      );
 }

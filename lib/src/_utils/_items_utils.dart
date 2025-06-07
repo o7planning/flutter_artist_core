@@ -1,6 +1,43 @@
 part of '../../flutter_artist_core.dart';
 
 class ItemsUtils {
+  static int getFirstIndexOfItemById<ITEM, ID>({
+    required ID? id,
+    required List<ITEM> targetList,
+    required ID Function(ITEM item) getItemId,
+  }) {
+    if (id == null) {
+      return -1;
+    }
+    int idx = targetList.indexWhere((it) => getItemId(it) == id);
+    return idx;
+  }
+
+  static void swapPositionsByIds<ITEM, ID>({
+    required ID itemId1,
+    required ID itemId2,
+    required List<ITEM> targetList,
+    required ID Function(ITEM item) getItemId,
+  }) {
+    int idx1 = getFirstIndexOfItemById(
+      id: itemId1,
+      targetList: targetList,
+      getItemId: getItemId,
+    );
+    int idx2 = getFirstIndexOfItemById(
+      id: itemId2,
+      targetList: targetList,
+      getItemId: getItemId,
+    );
+    if (idx1 == -1 || idx2 == -1 || idx1 == idx2) {
+      return;
+    }
+    ITEM item1 = targetList[idx1];
+    ITEM item2 = targetList[idx2];
+    targetList[idx1] = item2;
+    targetList[idx2] = item1;
+  }
+
   static ITEM? findItemInListById<ITEM, ID>({
     required ID? id,
     required List<ITEM> targetList,

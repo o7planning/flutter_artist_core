@@ -11,10 +11,7 @@ class AppException {
   String message;
   List<String>? details;
 
-  AppException({
-    required this.message,
-    this.details,
-  });
+  AppException({required this.message, this.details});
 
   @override
   String toString() {

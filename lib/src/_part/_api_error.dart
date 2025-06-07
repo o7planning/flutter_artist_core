@@ -13,11 +13,7 @@ class ApiError {
   String errorMessage;
   List<String>? errorDetails;
 
-  ApiError({
-    this.status,
-    required this.errorMessage,
-    this.errorDetails,
-  });
+  ApiError({this.status, required this.errorMessage, this.errorDetails});
 
   @override
   String toString() {

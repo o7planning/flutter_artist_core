@@ -41,20 +41,11 @@ class ApiResult<D> {
   String? errorMessage;
   List<String>? errorDetails;
 
-  ApiResult({
-    this.data,
-    this.status,
-    this.errorMessage,
-    this.errorDetails,
-  });
+  ApiResult({this.data, this.status, this.errorMessage, this.errorDetails});
 
   ApiResult.data(this.data);
 
-  ApiResult.error({
-    this.status,
-    this.errorMessage,
-    this.errorDetails,
-  });
+  ApiResult.error({this.status, this.errorMessage, this.errorDetails});
 
   static ApiResult<D> fromDynamicData<D>({
     required int? statusCode,
@@ -78,7 +69,8 @@ class ApiResult<D> {
       );
     } else {
       return ApiResult<D>(
-          errorMessage: "Not support response data type ${data.runtimeType}");
+        errorMessage: "Not support response data type ${data.runtimeType}",
+      );
     }
   }
 
@@ -189,9 +181,7 @@ class ApiResult<D> {
   ///
   /// Throw ApiError if data is null.
   ///
-  void throwIfErrorOrDataNull({
-    required String nullDataMessage,
-  }) {
+  void throwIfErrorOrDataNull({required String nullDataMessage}) {
     if (isError()) {
       throw ApiError(
         status: status,
@@ -208,11 +198,11 @@ class ApiResult<D> {
   }
 
   ApiResult<PageData<D>> toPageDataResult() {
-    PageData<D> pageData = data == null //
-        ? DefaultPageData.empty()
-        : DefaultPageData.item(
-            item: data as D,
-          );
+    PageData<D> pageData =
+        data ==
+                null //
+            ? DefaultPageData.empty()
+            : DefaultPageData.item(item: data as D);
     return ApiResult<PageData<D>>(
       data: pageData,
       status: status,

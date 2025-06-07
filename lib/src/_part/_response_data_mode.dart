@@ -38,5 +38,5 @@ enum ResponseDataMode {
   //      "employeeName": "Tom"
   //  }
   /// ```
-  realData;
+  realData,
 }

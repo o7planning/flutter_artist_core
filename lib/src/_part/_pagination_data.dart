@@ -11,16 +11,16 @@ interface class PaginationData {
     required int pageSize,
     required int totalItems,
     required int totalPages,
-  })  : _currentPage = currentPage,
-        _pageSize = pageSize,
-        _totalItems = totalItems,
-        _totalPages = totalPages;
+  }) : _currentPage = currentPage,
+       _pageSize = pageSize,
+       _totalItems = totalItems,
+       _totalPages = totalPages;
 
   PaginationData.empty()
-      : _currentPage = 1,
-        _pageSize = 0,
-        _totalItems = 0,
-        _totalPages = 0;
+    : _currentPage = 1,
+      _pageSize = 0,
+      _totalItems = 0,
+      _totalPages = 0;
 
   int get currentPage => _currentPage;
 
@@ -34,11 +34,11 @@ interface class PaginationData {
     return source == null
         ? null
         : PaginationData(
-            currentPage: source.currentPage,
-            pageSize: source.pageSize,
-            totalItems: source.totalItems,
-            totalPages: source.totalPages,
-          );
+          currentPage: source.currentPage,
+          pageSize: source.pageSize,
+          totalItems: source.totalItems,
+          totalPages: source.totalPages,
+        );
   }
 
   @override
