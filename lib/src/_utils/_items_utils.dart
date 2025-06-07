@@ -2,14 +2,14 @@ part of '../../flutter_artist_core.dart';
 
 class ItemsUtils {
   static int getFirstIndexOfItemById<ITEM, ID>({
-    required ID? id,
+    required ID? itemId,
     required List<ITEM> targetList,
     required ID Function(ITEM item) getItemId,
   }) {
-    if (id == null) {
+    if (itemId == null) {
       return -1;
     }
-    int idx = targetList.indexWhere((it) => getItemId(it) == id);
+    int idx = targetList.indexWhere((it) => getItemId(it) == itemId);
     return idx;
   }
 
@@ -20,12 +20,12 @@ class ItemsUtils {
     required ID Function(ITEM item) getItemId,
   }) {
     int idx1 = getFirstIndexOfItemById(
-      id: itemId1,
+      itemId: itemId1,
       targetList: targetList,
       getItemId: getItemId,
     );
     int idx2 = getFirstIndexOfItemById(
-      id: itemId2,
+      itemId: itemId2,
       targetList: targetList,
       getItemId: getItemId,
     );
@@ -36,6 +36,49 @@ class ItemsUtils {
     ITEM item2 = targetList[idx2];
     targetList[idx1] = item2;
     targetList[idx2] = item1;
+    return true;
+  }
+
+  static bool moveItemToNewIndexPosition<ITEM, ID>({
+    required ITEM item,
+    required int newIndexPosition,
+    required List<ITEM> targetList,
+    required ID Function(ITEM item) getItemId,
+  }) {
+    if (newIndexPosition < 0 || newIndexPosition > targetList.length - 1) {
+      return false;
+    }
+    ID itemId = getItemId(item);
+    int idx = getFirstIndexOfItemById(
+      itemId: itemId,
+      targetList: targetList,
+      getItemId: getItemId,
+    );
+    if (idx < 0 || idx == newIndexPosition) {
+      return false;
+    }
+    ITEM it = targetList.removeAt(idx);
+    targetList.insert(newIndexPosition, it);
+    return true;
+  }
+
+  static bool moveItemByIndexPosition<ITEM, ID>({
+    required int oldIndexPosition,
+    required int newIndexPosition,
+    required List<ITEM> targetList,
+    required ID Function(ITEM item) getItemId,
+  }) {
+    if (oldIndexPosition < 0 ||
+        oldIndexPosition > targetList.length - 1 ||
+        newIndexPosition < 0 ||
+        newIndexPosition > targetList.length - 1) {
+      return false;
+    }
+    if (oldIndexPosition == newIndexPosition) {
+      return false;
+    }
+    ITEM it = targetList.removeAt(oldIndexPosition);
+    targetList.insert(newIndexPosition, it);
     return true;
   }
 
