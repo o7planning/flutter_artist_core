@@ -13,7 +13,7 @@ class ItemsUtils {
     return idx;
   }
 
-  static void swapPositionsByIds<ITEM, ID>({
+  static bool swapPositionsByIds<ITEM, ID>({
     required ID itemId1,
     required ID itemId2,
     required List<ITEM> targetList,
@@ -30,12 +30,13 @@ class ItemsUtils {
       getItemId: getItemId,
     );
     if (idx1 == -1 || idx2 == -1 || idx1 == idx2) {
-      return;
+      return false;
     }
     ITEM item1 = targetList[idx1];
     ITEM item2 = targetList[idx2];
     targetList[idx1] = item2;
     targetList[idx2] = item1;
+    return true;
   }
 
   static ITEM? findItemInListById<ITEM, ID>({
