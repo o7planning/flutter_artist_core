@@ -117,7 +117,7 @@ class ApiResult<D> {
   ///    "status": 500,
   ///    "error": "Internal Server Error",
   ///    "path": "/rest/appUserInfoPage"
-  // }
+  /// }
   /// ```
   /// CASE 2:
   /// ```json
