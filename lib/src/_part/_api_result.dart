@@ -40,12 +40,24 @@ class ApiResult<D> {
   String? status;
   String? errorMessage;
   List<String>? errorDetails;
+  String? originText;
 
-  ApiResult({this.data, this.status, this.errorMessage, this.errorDetails});
+  ApiResult({
+    this.data,
+    this.status,
+    this.errorMessage,
+    this.errorDetails,
+    this.originText,
+  });
 
   ApiResult.data(this.data);
 
-  ApiResult.error({this.status, this.errorMessage, this.errorDetails});
+  ApiResult.error({
+    this.status,
+    this.errorMessage,
+    this.errorDetails,
+    this.originText,
+  });
 
   static ApiResult<D> fromDynamicData<D>({
     required int? statusCode,
