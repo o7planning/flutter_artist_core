@@ -1,7 +1,7 @@
 part of '../../flutter_artist_core.dart';
 
 class ErrorUtils {
-  AppException? toAppException(dynamic error) {
+  static AppException? toAppException(dynamic error) {
     if (error == null) {
       return null;
     }
