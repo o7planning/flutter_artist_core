@@ -15,6 +15,10 @@ class ApiError {
 
   ApiError({this.status, required this.errorMessage, this.errorDetails});
 
+  AppException toAppException() {
+    return AppException(message: errorMessage, details: errorDetails);
+  }
+
   @override
   String toString() {
     return this.errorMessage;

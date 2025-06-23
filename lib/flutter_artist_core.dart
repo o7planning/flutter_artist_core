@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-part 'src/_part/_api_error.dart';
+part 'src/_error/_api_error.dart';
+part 'src/_error/_app_exception.dart';
 part 'src/_part/_api_result.dart';
-part 'src/_part/_app_exception.dart';
 part 'src/_part/_data_converter.dart';
 part 'src/_part/_logged_in_user.dart';
 part 'src/_part/_page_data.dart';
