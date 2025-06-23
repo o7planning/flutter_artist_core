@@ -13,5 +13,6 @@ part 'src/_part/_response_data_mode.dart';
 part 'src/_part/_token_storage.dart';
 part 'src/_part/_wrap_api_result.dart';
 part 'src/_part/_write_token_to_headers.dart';
+part 'src/_utils/_error_utils.dart';
 part 'src/_utils/_items_utils.dart';
 part 'src/_utils/_map_utils.dart';
