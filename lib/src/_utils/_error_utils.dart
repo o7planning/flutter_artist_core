@@ -1,10 +1,7 @@
 part of '../../flutter_artist_core.dart';
 
 class ErrorUtils {
-  static AppException? toAppException(dynamic error) {
-    if (error == null) {
-      return null;
-    }
+  static AppException toAppException(Object error) {
     if (error is AppException) {
       return error as AppException;
     } else if (error is ApiError) {
