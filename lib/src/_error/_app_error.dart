@@ -3,7 +3,7 @@ part of '../../flutter_artist_core.dart';
 ///
 /// ```json
 /// {
-///   "message" : "Some Message",
+///   "errorMessage" : "Some Message",
 ///   "errorDetails" : [ "Cause 1", "Cause 2" ]
 /// }
 /// ```
