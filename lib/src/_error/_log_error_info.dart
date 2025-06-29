@@ -7,7 +7,7 @@ class LogErrorInfo extends ErrorInfo {
   LogErrorInfo({
     required this.id,
     required this.shelfName,
-    required super.message,
+    required super.errorMessage,
     required super.errorDetails,
     required super.stackTrace,
   });
