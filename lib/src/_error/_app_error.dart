@@ -7,14 +7,14 @@ part of '../../flutter_artist_core.dart';
 ///   "errorDetails" : [ "Cause 1", "Cause 2" ]
 /// }
 /// ```
-class AppException {
-  String message;
-  List<String>? details;
+class AppError {
+  String errorMessage;
+  List<String>? errorDetails;
 
-  AppException({required this.message, this.details});
+  AppError({required this.errorMessage, this.errorDetails});
 
   @override
   String toString() {
-    return message;
+    return errorMessage;
   }
 }

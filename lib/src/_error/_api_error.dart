@@ -8,19 +8,8 @@ part of '../../flutter_artist_core.dart';
 ///   "errorDetails" : [ "Cause 1", "Cause 2" ]
 /// }
 /// ```
-class ApiError {
+class ApiError extends AppError {
   String? status;
-  String errorMessage;
-  List<String>? errorDetails;
 
-  ApiError({this.status, required this.errorMessage, this.errorDetails});
-
-  AppException toAppException() {
-    return AppException(message: errorMessage, details: errorDetails);
-  }
-
-  @override
-  String toString() {
-    return this.errorMessage;
-  }
+  ApiError({this.status, required super.errorMessage, super.errorDetails});
 }

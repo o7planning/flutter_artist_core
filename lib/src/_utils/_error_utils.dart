@@ -1,16 +1,14 @@
 part of '../../flutter_artist_core.dart';
 
 class ErrorUtils {
-  static AppException toAppException(Object error) {
-    if (error is AppException) {
-      return error as AppException;
-    } else if (error is ApiError) {
-      return error.toAppException();
+  static AppError toAppError(Object error) {
+    if (error is AppError) {
+      return error as AppError;
     } else if (error is Exception) {
-      return AppException(message: error.toString());
+      return AppError(errorMessage: error.toString());
     } else if (error is Error) {
-      return AppException(message: error.toString());
+      return AppError(errorMessage: error.toString());
     }
-    return AppException(message: error.toString());
+    return AppError(errorMessage: error.toString());
   }
 }
