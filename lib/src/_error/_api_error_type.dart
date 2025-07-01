@@ -35,3 +35,32 @@ enum ApiErrorType {
   // Conversion Error.
   conversion,
 }
+
+extension ApiErrorTypeE on ApiErrorType {
+  String get description {
+    switch (this) {
+      case ApiErrorType.connectionTimeout:
+        return "Connection Timeout";
+      case ApiErrorType.sendTimeout:
+        return "Send Timeout";
+      case ApiErrorType.receiveTimeout:
+        return "Receive Timeout";
+      case ApiErrorType.badCertificate:
+        return "Bad Certificate";
+      case ApiErrorType.badResponse:
+        return "Bad Response";
+      case ApiErrorType.cancel:
+        return "Cancel";
+      case ApiErrorType.connectionError:
+        return "Connection Error";
+      case ApiErrorType.unknown:
+        return "Unknown";
+      case ApiErrorType.invalidJson:
+        return "Invalid Json";
+      case ApiErrorType.notJson:
+        return "Not Json";
+      case ApiErrorType.conversion:
+        return "Conversion";
+    }
+  }
+}
