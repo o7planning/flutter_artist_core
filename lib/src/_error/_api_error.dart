@@ -11,10 +11,12 @@ part of '../../flutter_artist_core.dart';
 class ApiError extends AppError {
   ApiErrorType? apiErrorType;
   String? status;
+  dynamic errorData;
 
   ApiError({
     this.status,
     this.apiErrorType,
+    this.errorData,
     required super.errorMessage,
     super.errorDetails,
   });

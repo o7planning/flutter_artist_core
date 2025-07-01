@@ -38,26 +38,46 @@ part of '../../flutter_artist_core.dart';
 class ApiResult<D> {
   D? data;
   String? status;
+  ApiErrorType? apiErrorType;
+  dynamic errorData;
   String? errorMessage;
   List<String>? errorDetails;
   String? originText;
 
+  // TODO: Remove.
   ApiResult({
     this.data,
     this.status,
+    this.apiErrorType,
     this.errorMessage,
     this.errorDetails,
     this.originText,
+    this.errorData,
   });
 
   ApiResult.data(this.data);
 
   ApiResult.error({
     this.status,
+    this.apiErrorType,
     this.errorMessage,
     this.errorDetails,
     this.originText,
+    this.errorData,
   });
+
+  ApiError? toApiError() {
+    if (errorMessage == null) {
+      return null;
+    }
+    return ApiError(
+      status: status,
+      apiErrorType: apiErrorType,
+      errorMessage: errorMessage!,
+      errorDetails: errorDetails,
+      errorData: errorData,
+    );
+  }
 
   static ApiResult<D> fromDynamicData<D>({
     required int? statusCode,
