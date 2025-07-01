@@ -3,7 +3,7 @@ part of '../../flutter_artist_core.dart';
 class ErrorUtils {
   static AppError toAppError(Object error) {
     if (error is AppError) {
-      return error as AppError;
+      return error;
     } else if (error is Exception) {
       return AppError(errorMessage: error.toString());
     } else if (error is Error) {

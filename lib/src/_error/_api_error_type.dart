@@ -25,4 +25,13 @@ enum ApiErrorType {
 
   /// Default error type, Some other [Error].
   unknown,
+
+  // Json is not valid.
+  invalidJson,
+
+  // Json Syntax.
+  notJson,
+
+  // Conversion Error.
+  conversion,
 }

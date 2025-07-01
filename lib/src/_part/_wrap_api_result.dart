@@ -2,18 +2,35 @@ part of '../../flutter_artist_core.dart';
 
 class WrapApiResult {
   String? result;
+  ApiErrorType? apiErrorType;
   String? status;
   String? errorMessage;
   List<String>? errorDetails;
   Map<String, dynamic>? data;
+  dynamic errorData;
 
-  WrapApiResult({
-    required this.result,
+  WrapApiResult.error({
     this.status,
+    required this.apiErrorType,
     this.errorMessage,
     this.errorDetails,
-    this.data,
+    this.errorData,
   });
+
+  WrapApiResult.data({this.data});
+
+  ApiError? toApiError() {
+    if (errorMessage != null) {
+      return ApiError(
+        apiErrorType: apiErrorType,
+        errorMessage: errorMessage!,
+        errorDetails: errorDetails,
+        status: status,
+        errorData: errorData,
+      );
+    }
+    return null;
+  }
 
   static WrapApiResult? fromDynamicData(dynamic data) {
     if (data is String) {
@@ -23,71 +40,32 @@ class WrapApiResult {
     }
   }
 
-  ///
-  /// CASE 1:
-  /// ```json
-  /// {
-  ///    "timestamp": "2025-01-26T05:34:11.649+00:00",
-  ///    "status": 500,
-  ///    "error": "Internal Server Error",
-  ///    "path": "/rest/appUserInfoPage"
-  // }
-  /// ```
-  /// CASE 2:
-  /// ```json
-  /// {
-  ///   "status" : "INTERNAL_SERVER_ERROR",
-  ///   "errorMessage" : "Some Message",
-  ///   "errorDetails" : [ "Cause 1", "Cause 2" ]
-  /// }
-  /// ```
-  ///
   static WrapApiResult? fromMap(Map<String, dynamic> map) {
+    Map<String, dynamic>? data;
     try {
-      String? result = map['result'];
-      //
-      String? status = (map['status'] ?? map['errorStatus']).toString();
-      //
-      String? errorMessage =
-          map['errorMessage'] ?? map['error'] ?? map['message'];
-      //
-      dynamic errorDs = map['errors'] ?? map['errorDetails'];
-      //
-
-      Map<String, dynamic>? data = map['data'];
-      //
-      List<String>? errorDetails;
-      if (errorDs != null) {
-        if (errorDs is List) {
-          errorDetails = errorDs.map((e) => e.toString()).toList();
-        } else {
-          errorDetails = [errorDs.toString()];
-        }
-      }
-      //
-      return WrapApiResult(
-        result: result,
-        status: status,
-        errorMessage: errorMessage,
-        errorDetails: errorDetails,
-        data: data,
-      );
-    } catch (e) {
-      return WrapApiResult(
-        result: "fail",
-        status: null,
-        errorMessage: "Error $e",
-        errorDetails: null,
-        data: null,
+      data = map['data'];
+    } catch (e, stackTrace) {
+      return WrapApiResult.error(
+        apiErrorType: ApiErrorType.invalidJson,
+        errorMessage: "Invalid JSON - 'data' attribute invalid",
       );
     }
+    return WrapApiResult.data(data: data);
   }
 
   static WrapApiResult? fromJson(String json) {
     if (json.trim().isEmpty) {
       return null;
     }
-    Map<String, dynamic> map = jsonDecode(json);
+    Map<String, dynamic> map;
+    try {
+      map = jsonDecode(json);
+    } catch (e, stackTrace) {
+      return WrapApiResult.error(
+        apiErrorType: ApiErrorType.notJson,
+        errorMessage: "Not JSON: $e",
+      );
+    }
     return fromMap(map);
   }
 }

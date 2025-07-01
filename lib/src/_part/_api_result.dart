@@ -119,9 +119,10 @@ class ApiResult<D> {
     try {
       map = jsonDecode(json);
     } catch (e, stackTrace) {
-      print("ERROR jsonDecode: $e");
-      print("JSON: $json");
-      return ApiResult.error(errorMessage: "Error jsonDecode: $e");
+      return ApiResult<D>.error(
+        apiErrorType: ApiErrorType.notJson,
+        errorMessage: "Not JSON: $e",
+      );
     }
     return fromMap(
       map: map,
@@ -154,47 +155,19 @@ class ApiResult<D> {
     required Converter? dataConverter,
     required int? statusCode,
   }) {
-    String? status =
-        (map['status'] ?? map['errorStatus'] ?? statusCode).toString();
-    //
-    String? errorMessage =
-        map['errorMessage'] ?? map['error'] ?? map['message'];
-    //
-    dynamic errorDetailsX = map['errors'] ?? map['errorDetails'];
-    //
-    List<String>? errorDetails;
-    if (errorDetailsX != null) {
-      if (errorDetailsX is List) {
-        errorDetails =
-            errorDetailsX.map((detail) => detail.toString()).toList();
-      } else {
-        errorDetails = [errorDetailsX.toString()];
-      }
-    }
-    //
     D? data;
     if (dataConverter != null) {
       try {
         data = dataConverter(map);
       } catch (e, stackTrace) {
-        errorMessage ??= "Data Convert error: $e";
+        return ApiResult<D>.error(
+          apiErrorType: ApiErrorType.conversion,
+          errorMessage: "Data Convert error: $e",
+        );
       }
     }
     //
-    if (statusCode != null && statusCode >= 300) {
-      return ApiResult.error(
-        status: status,
-        errorMessage: errorMessage ?? "Error with status code: $statusCode",
-        errorDetails: errorDetails,
-      );
-    } else {
-      return ApiResult(
-        status: status,
-        errorMessage: errorMessage,
-        errorDetails: errorDetails,
-        data: data,
-      );
-    }
+    return ApiResult.data(data);
   }
 
   bool isError() {
