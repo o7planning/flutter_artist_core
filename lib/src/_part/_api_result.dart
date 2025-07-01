@@ -37,7 +37,7 @@ part of '../../flutter_artist_core.dart';
 ///
 class ApiResult<D> {
   D? data;
-  String? status;
+  int? statusCode;
   ApiErrorType? apiErrorType;
   dynamic errorData;
   String? errorMessage;
@@ -47,7 +47,7 @@ class ApiResult<D> {
   // TODO: Remove.
   ApiResult({
     this.data,
-    this.status,
+    this.statusCode,
     this.apiErrorType,
     this.errorMessage,
     this.errorDetails,
@@ -58,7 +58,7 @@ class ApiResult<D> {
   ApiResult.data(this.data);
 
   ApiResult.error({
-    this.status,
+    this.statusCode,
     this.apiErrorType,
     this.errorMessage,
     this.errorDetails,
@@ -71,7 +71,7 @@ class ApiResult<D> {
       return null;
     }
     return ApiError(
-      status: status,
+      statusCode: statusCode,
       apiErrorType: apiErrorType,
       errorMessage: errorMessage!,
       errorDetails: errorDetails,
@@ -177,7 +177,7 @@ class ApiResult<D> {
   void throwIfError() {
     if (isError()) {
       throw ApiError(
-        status: status,
+        statusCode: statusCode,
         errorMessage: errorMessage!,
         errorDetails: errorDetails,
       );
@@ -190,13 +190,13 @@ class ApiResult<D> {
   void throwIfErrorOrDataNull({required String nullDataMessage}) {
     if (isError()) {
       throw ApiError(
-        status: status,
+        statusCode: statusCode,
         errorMessage: errorMessage!,
         errorDetails: errorDetails,
       );
     } else if (data == null) {
       throw ApiError(
-        status: status,
+        statusCode: statusCode,
         errorMessage: nullDataMessage,
         errorDetails: null,
       );
@@ -211,7 +211,7 @@ class ApiResult<D> {
             : DefaultPageData.item(item: data as D);
     return ApiResult<PageData<D>>(
       data: pageData,
-      status: status,
+      statusCode: statusCode,
       errorMessage: errorMessage,
       errorDetails: errorDetails,
     );
@@ -220,7 +220,7 @@ class ApiResult<D> {
   ApiResult<void> toVoidResult() {
     return ApiResult<void>(
       data: null,
-      status: status,
+      statusCode: statusCode,
       errorMessage: errorMessage,
       errorDetails: errorDetails,
     );
@@ -230,7 +230,7 @@ class ApiResult<D> {
     F? fData = data == null ? null : converter(data!);
     return ApiResult<F>(
       data: fData,
-      status: status,
+      statusCode: statusCode,
       errorMessage: errorMessage,
       errorDetails: errorDetails,
     );

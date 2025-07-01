@@ -3,18 +3,18 @@ part of '../../flutter_artist_core.dart';
 ///
 /// ```json
 /// {
-///   "status" : "INTERNAL_SERVER_ERROR",
+///   "status" : 401,
 ///   "errorMessage" : "Some Message",
 ///   "errorDetails" : [ "Cause 1", "Cause 2" ]
 /// }
 /// ```
 class ApiError extends AppError {
   ApiErrorType? apiErrorType;
-  String? status;
+  int? statusCode;
   dynamic errorData;
 
   ApiError({
-    this.status,
+    this.statusCode,
     this.apiErrorType,
     this.errorData,
     required super.errorMessage,
@@ -22,7 +22,7 @@ class ApiError extends AppError {
   });
 
   static ApiError fromMap({
-    required int? status,
+    required int? statusCode,
     required String? statusMessage,
     required Map<String, dynamic> map,
   }) {
@@ -45,20 +45,20 @@ class ApiError extends AppError {
       }
     }
     return ApiError(
-      status: status.toString(),
+      statusCode: statusCode,
       errorMessage: errorMessage,
       errorDetails: errorDetails,
     );
   }
 
   static ApiError fromResponseErrorData({
-    required int? status,
+    required int? statusCode,
     required String? statusMessage,
     required dynamic responseErrorData,
   }) {
     if (responseErrorData == null) {
       return ApiError(
-        status: status.toString(),
+        statusCode: statusCode,
         apiErrorType: ApiErrorType.unknown,
         errorData: null,
         errorMessage: statusMessage ?? "Unknown Error",
@@ -71,7 +71,7 @@ class ApiError extends AppError {
         jsonObj = jsonDecode(responseErrorData);
       } catch (e) {
         return ApiError(
-          status: status.toString(),
+          statusCode: statusCode,
           apiErrorType: ApiErrorType.unknown,
           errorData: null,
           errorMessage: statusMessage ?? "Unknown Error",
@@ -80,7 +80,7 @@ class ApiError extends AppError {
       }
       if (jsonObj == null) {
         return ApiError(
-          status: status.toString(),
+          statusCode: statusCode,
           apiErrorType: ApiErrorType.unknown,
           errorData: null,
           errorMessage: statusMessage ?? "Unknown Error",
@@ -88,13 +88,13 @@ class ApiError extends AppError {
         );
       } else if (jsonObj is Map) {
         return ApiError.fromMap(
-          status: status,
+          statusCode: statusCode,
           statusMessage: statusMessage,
           map: jsonObj as Map<String, dynamic>,
         );
       } else if (jsonObj is List) {
         return ApiError(
-          status: status.toString(),
+          statusCode: statusCode,
           apiErrorType: ApiErrorType.unknown,
           errorData: null,
           errorMessage: statusMessage ?? "Unknown Error (Array)",
@@ -102,7 +102,7 @@ class ApiError extends AppError {
         );
       } else {
         return ApiError(
-          status: status.toString(),
+          statusCode: statusCode,
           apiErrorType: ApiErrorType.unknown,
           errorData: null,
           errorMessage: statusMessage ?? "Unknown Error",
@@ -111,13 +111,13 @@ class ApiError extends AppError {
       }
     } else if (responseErrorData is Map) {
       return ApiError.fromMap(
-        status: status,
+        statusCode: statusCode,
         statusMessage: statusMessage,
         map: responseErrorData as Map<String, dynamic>,
       );
     } else {
       return ApiError(
-        status: status.toString(),
+        statusCode: statusCode,
         apiErrorType: ApiErrorType.unknown,
         errorData: null,
         errorMessage: statusMessage ?? "Unknown Error",

@@ -3,14 +3,14 @@ part of '../../flutter_artist_core.dart';
 class WrapApiResult {
   String? result;
   ApiErrorType? apiErrorType;
-  String? status;
+  int? statusCode;
   String? errorMessage;
   List<String>? errorDetails;
   Map<String, dynamic>? data;
   dynamic errorData;
 
   WrapApiResult.error({
-    this.status,
+    this.statusCode,
     required this.apiErrorType,
     this.errorMessage,
     this.errorDetails,
@@ -25,7 +25,7 @@ class WrapApiResult {
         apiErrorType: apiErrorType,
         errorMessage: errorMessage!,
         errorDetails: errorDetails,
-        status: status,
+        statusCode: statusCode,
         errorData: errorData,
       );
     }
