@@ -9,7 +9,13 @@ part of '../../flutter_artist_core.dart';
 /// }
 /// ```
 class ApiError extends AppError {
+  ApiErrorType? apiErrorType;
   String? status;
 
-  ApiError({this.status, required super.errorMessage, super.errorDetails});
+  ApiError({
+    this.status,
+    this.apiErrorType,
+    required super.errorMessage,
+    super.errorDetails,
+  });
 }

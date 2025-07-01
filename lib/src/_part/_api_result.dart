@@ -80,6 +80,7 @@ class ApiResult<D> {
         statusCode: statusCode,
       );
     } else {
+      // TODO: List??
       return ApiResult<D>(
         errorMessage: "Not support response data type ${data.runtimeType}",
       );

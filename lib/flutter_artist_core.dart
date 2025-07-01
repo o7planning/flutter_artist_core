@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 part 'src/_error/_api_error.dart';
+part 'src/_error/_api_error_type.dart';
 part 'src/_error/_app_error.dart';
 part 'src/_error/_error_info.dart';
 part 'src/_error/_log_error_info.dart';
