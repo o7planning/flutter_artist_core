@@ -50,17 +50,17 @@ extension ApiErrorTypeE on ApiErrorType {
       case ApiErrorType.badResponse:
         return "Bad Response";
       case ApiErrorType.cancel:
-        return "Cancel";
+        return "Request Cancelled";
       case ApiErrorType.connectionError:
         return "Connection Error";
       case ApiErrorType.unknown:
-        return "Unknown";
+        return "Unknown Error";
       case ApiErrorType.invalidJson:
-        return "Invalid Json";
+        return "Invalid JSON";
       case ApiErrorType.notJson:
-        return "Not Json";
+        return "Not JSON Error";
       case ApiErrorType.conversion:
-        return "Conversion";
+        return "Conversion Error";
     }
   }
 }
