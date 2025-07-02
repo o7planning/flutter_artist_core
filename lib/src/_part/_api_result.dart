@@ -38,42 +38,41 @@ part of '../../flutter_artist_core.dart';
 class ApiResult<D> {
   D? data;
   int? statusCode;
-  ApiErrorType? apiErrorType;
-  String? errorMessage;
-  List<String>? errorDetails;
-  String? originErrorText;
+  ApiError? apiError;
 
   // TODO: Remove.
-  ApiResult({
-    this.data,
-    this.statusCode,
-    this.apiErrorType,
-    this.errorMessage,
-    this.errorDetails,
-    this.originErrorText,
-  });
+  ApiResult({this.data, this.statusCode, this.apiError});
 
   ApiResult.data(this.data);
 
+  ApiResult.apiError(ApiError this.apiError);
+
   ApiResult.error({
     this.statusCode,
-    this.apiErrorType,
-    this.errorMessage,
-    this.errorDetails,
-    this.originErrorText,
-  });
+    ApiErrorType? apiErrorType,
+    required String errorMessage,
+    List<String>? errorDetails,
+    String? originErrorText,
+  }) : apiError = ApiError(
+         statusCode: statusCode,
+         apiErrorType: apiErrorType,
+         errorMessage: errorMessage,
+         errorDetails: errorDetails,
+         originErrorText: originErrorText,
+       );
 
   ApiError? toApiError() {
-    if (errorMessage == null) {
-      return null;
-    }
-    return ApiError(
-      statusCode: statusCode,
-      apiErrorType: apiErrorType,
-      errorMessage: errorMessage!,
-      errorDetails: errorDetails,
-      originErrorText: originErrorText,
-    );
+    return apiError;
+    // if (errorMessage == null) {
+    //   return null;
+    // }
+    // return ApiError(
+    //   statusCode: statusCode,
+    //   apiErrorType: apiErrorType,
+    //   errorMessage: errorMessage!,
+    //   errorDetails: errorDetails,
+    //   originErrorText: originErrorText,
+    // );
   }
 
   static ApiResult<D> fromDynamicData<D>({
@@ -98,8 +97,10 @@ class ApiResult<D> {
       );
     } else {
       // TODO: List??
-      return ApiResult<D>(
-        errorMessage: "Not support response data type ${data.runtimeType}",
+      return ApiResult<D>.apiError(
+        ApiError(
+          errorMessage: "Not support response data type ${data.runtimeType}",
+        ),
       );
     }
   }
@@ -116,9 +117,11 @@ class ApiResult<D> {
     try {
       map = jsonDecode(json);
     } catch (e, stackTrace) {
-      return ApiResult<D>.error(
-        apiErrorType: ApiErrorType.notJson,
-        errorMessage: "Not JSON: $e",
+      return ApiResult<D>.apiError(
+        ApiError(
+          apiErrorType: ApiErrorType.notJson,
+          errorMessage: "Not JSON: $e",
+        ),
       );
     }
     return fromMap(
@@ -157,9 +160,12 @@ class ApiResult<D> {
       try {
         data = dataConverter(map);
       } catch (e, stackTrace) {
-        return ApiResult<D>.error(
-          apiErrorType: ApiErrorType.conversion,
-          errorMessage: "Data Convert error: $e",
+        return ApiResult<D>.apiError(
+          ApiError(
+            apiErrorType: ApiErrorType.conversion,
+            errorMessage: "Data Convert error: $e",
+            originErrorText: JsonUtils.jsonEncodeMap(map: map),
+          ),
         );
       }
     }
@@ -168,16 +174,12 @@ class ApiResult<D> {
   }
 
   bool isError() {
-    return errorMessage != null;
+    return apiError != null;
   }
 
   void throwIfError() {
     if (isError()) {
-      throw ApiError(
-        statusCode: statusCode,
-        errorMessage: errorMessage!,
-        errorDetails: errorDetails,
-      );
+      throw apiError!;
     }
   }
 
@@ -186,11 +188,7 @@ class ApiResult<D> {
   ///
   void throwIfErrorOrDataNull({required String nullDataMessage}) {
     if (isError()) {
-      throw ApiError(
-        statusCode: statusCode,
-        errorMessage: errorMessage!,
-        errorDetails: errorDetails,
-      );
+      throw apiError!;
     } else if (data == null) {
       throw ApiError(
         statusCode: statusCode,
@@ -209,8 +207,7 @@ class ApiResult<D> {
     return ApiResult<PageData<D>>(
       data: pageData,
       statusCode: statusCode,
-      errorMessage: errorMessage,
-      errorDetails: errorDetails,
+      apiError: apiError,
     );
   }
 
@@ -218,8 +215,7 @@ class ApiResult<D> {
     return ApiResult<void>(
       data: null,
       statusCode: statusCode,
-      errorMessage: errorMessage,
-      errorDetails: errorDetails,
+      apiError: apiError,
     );
   }
 
@@ -228,8 +224,7 @@ class ApiResult<D> {
     return ApiResult<F>(
       data: fData,
       statusCode: statusCode,
-      errorMessage: errorMessage,
-      errorDetails: errorDetails,
+      apiError: apiError,
     );
   }
 }
