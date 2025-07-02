@@ -11,10 +11,12 @@ part of '../../flutter_artist_core.dart';
 class ApiError extends AppError {
   ApiErrorType? apiErrorType;
   int? statusCode;
+  String? statusMessage;
   String? originErrorText;
 
   ApiError({
     this.statusCode,
+    this.statusMessage,
     this.apiErrorType,
     this.originErrorText,
     required super.errorMessage,
@@ -22,6 +24,7 @@ class ApiError extends AppError {
   });
 
   static ApiError fromMap({
+    required ApiErrorType apiErrorType,
     required int? statusCode,
     required String? statusMessage,
     required Map<String, dynamic> map,
@@ -46,11 +49,13 @@ class ApiError extends AppError {
     }
     String? originErrorText;
     try {
-      originErrorText = jsonEncode(map);
+      originErrorText = JsonUtils.toBeautifulJson(map);
     } catch (e) {}
 
     return ApiError(
       statusCode: statusCode,
+      apiErrorType: apiErrorType,
+      statusMessage: statusMessage,
       errorMessage: errorMessage,
       errorDetails: errorDetails,
       originErrorText: originErrorText,
@@ -58,6 +63,7 @@ class ApiError extends AppError {
   }
 
   static ApiError fromResponseErrorData({
+    required ApiErrorType apiErrorType,
     required int? statusCode,
     required String? statusMessage,
     required dynamic responseErrorData,
@@ -65,7 +71,8 @@ class ApiError extends AppError {
     if (responseErrorData == null) {
       return ApiError(
         statusCode: statusCode,
-        apiErrorType: ApiErrorType.unknown,
+        statusMessage: statusMessage,
+        apiErrorType: apiErrorType,
         originErrorText: null,
         errorMessage: statusMessage ?? "Unknown Error",
         errorDetails: null,
@@ -78,22 +85,25 @@ class ApiError extends AppError {
       } catch (e) {
         return ApiError(
           statusCode: statusCode,
-          apiErrorType: ApiErrorType.unknown,
+          statusMessage: statusMessage,
+          apiErrorType: apiErrorType,
           originErrorText: responseErrorData,
-          errorMessage: statusMessage ?? "Unknown Error",
+          errorMessage: statusMessage ?? "Unknown Error Message (*)",
           errorDetails: null,
         );
       }
       if (jsonObj == null) {
         return ApiError(
           statusCode: statusCode,
-          apiErrorType: ApiErrorType.unknown,
+          statusMessage: statusMessage,
+          apiErrorType: apiErrorType,
           originErrorText: responseErrorData,
-          errorMessage: statusMessage ?? "Unknown Error",
+          errorMessage: statusMessage ?? "Unknown Error Message (*)",
           errorDetails: null,
         );
       } else if (jsonObj is Map) {
         return ApiError.fromMap(
+          apiErrorType: apiErrorType,
           statusCode: statusCode,
           statusMessage: statusMessage,
           map: jsonObj as Map<String, dynamic>,
@@ -101,22 +111,25 @@ class ApiError extends AppError {
       } else if (jsonObj is List) {
         return ApiError(
           statusCode: statusCode,
+          statusMessage: statusMessage,
           apiErrorType: ApiErrorType.unknown,
           originErrorText: responseErrorData,
-          errorMessage: statusMessage ?? "Unknown Error (Array)",
+          errorMessage: statusMessage ?? "Unknown Error Message (Array)",
           errorDetails: null,
         );
       } else {
         return ApiError(
           statusCode: statusCode,
+          statusMessage: statusMessage,
           apiErrorType: ApiErrorType.unknown,
           originErrorText: responseErrorData,
-          errorMessage: statusMessage ?? "Unknown Error",
+          errorMessage: statusMessage ?? "Unknown Error Message",
           errorDetails: null,
         );
       }
     } else if (responseErrorData is Map) {
       return ApiError.fromMap(
+        apiErrorType: apiErrorType,
         statusCode: statusCode,
         statusMessage: statusMessage,
         map: responseErrorData as Map<String, dynamic>,
@@ -124,9 +137,10 @@ class ApiError extends AppError {
     } else {
       return ApiError(
         statusCode: statusCode,
-        apiErrorType: ApiErrorType.unknown,
+        statusMessage: statusMessage,
+        apiErrorType: apiErrorType,
         originErrorText: responseErrorData,
-        errorMessage: statusMessage ?? "Unknown Error",
+        errorMessage: statusMessage ?? "Unknown Error Message",
         errorDetails: null,
       );
     }

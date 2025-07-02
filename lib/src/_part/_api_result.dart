@@ -45,7 +45,7 @@ class ApiResult<D> {
 
   ApiResult.data(this.data);
 
-  ApiResult.apiError(ApiError this.apiError);
+  ApiResult.apiError(ApiError this.apiError) : statusCode = apiError.statusCode;
 
   ApiResult.error({
     this.statusCode,
