@@ -61,20 +61,6 @@ class ApiResult<D> {
          originErrorText: originErrorText,
        );
 
-  ApiError? toApiError() {
-    return apiError;
-    // if (errorMessage == null) {
-    //   return null;
-    // }
-    // return ApiError(
-    //   statusCode: statusCode,
-    //   apiErrorType: apiErrorType,
-    //   errorMessage: errorMessage!,
-    //   errorDetails: errorDetails,
-    //   originErrorText: originErrorText,
-    // );
-  }
-
   static ApiResult<D> fromDynamicData<D>({
     required int? statusCode,
     required dynamic data,
