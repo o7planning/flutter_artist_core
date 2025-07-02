@@ -7,14 +7,14 @@ class WrapApiResult {
   String? errorMessage;
   List<String>? errorDetails;
   Map<String, dynamic>? data;
-  String? originText;
+  String? originErrorText;
 
   WrapApiResult.error({
     this.statusCode,
     required this.apiErrorType,
     this.errorMessage,
     this.errorDetails,
-    this.originText,
+    this.originErrorText,
   });
 
   WrapApiResult.data({this.data});
@@ -26,7 +26,7 @@ class WrapApiResult {
         errorMessage: errorMessage!,
         errorDetails: errorDetails,
         statusCode: statusCode,
-        originText: originText,
+        originErrorText: originErrorText,
       );
     }
     return null;

@@ -11,12 +11,12 @@ part of '../../flutter_artist_core.dart';
 class ApiError extends AppError {
   ApiErrorType? apiErrorType;
   int? statusCode;
-  String? originText;
+  String? originErrorText;
 
   ApiError({
     this.statusCode,
     this.apiErrorType,
-    this.originText,
+    this.originErrorText,
     required super.errorMessage,
     super.errorDetails,
   });
@@ -44,16 +44,16 @@ class ApiError extends AppError {
         errorDetails = [errorDetailsX.toString()];
       }
     }
-    String? originText;
+    String? originErrorText;
     try {
-      originText = jsonEncode(map);
+      originErrorText = jsonEncode(map);
     } catch (e) {}
 
     return ApiError(
       statusCode: statusCode,
       errorMessage: errorMessage,
       errorDetails: errorDetails,
-      originText: originText,
+      originErrorText: originErrorText,
     );
   }
 
@@ -66,7 +66,7 @@ class ApiError extends AppError {
       return ApiError(
         statusCode: statusCode,
         apiErrorType: ApiErrorType.unknown,
-        originText: null,
+        originErrorText: null,
         errorMessage: statusMessage ?? "Unknown Error",
         errorDetails: null,
       );
@@ -79,7 +79,7 @@ class ApiError extends AppError {
         return ApiError(
           statusCode: statusCode,
           apiErrorType: ApiErrorType.unknown,
-          originText: responseErrorData,
+          originErrorText: responseErrorData,
           errorMessage: statusMessage ?? "Unknown Error",
           errorDetails: null,
         );
@@ -88,7 +88,7 @@ class ApiError extends AppError {
         return ApiError(
           statusCode: statusCode,
           apiErrorType: ApiErrorType.unknown,
-          originText: responseErrorData,
+          originErrorText: responseErrorData,
           errorMessage: statusMessage ?? "Unknown Error",
           errorDetails: null,
         );
@@ -102,7 +102,7 @@ class ApiError extends AppError {
         return ApiError(
           statusCode: statusCode,
           apiErrorType: ApiErrorType.unknown,
-          originText: responseErrorData,
+          originErrorText: responseErrorData,
           errorMessage: statusMessage ?? "Unknown Error (Array)",
           errorDetails: null,
         );
@@ -110,7 +110,7 @@ class ApiError extends AppError {
         return ApiError(
           statusCode: statusCode,
           apiErrorType: ApiErrorType.unknown,
-          originText: responseErrorData,
+          originErrorText: responseErrorData,
           errorMessage: statusMessage ?? "Unknown Error",
           errorDetails: null,
         );
@@ -125,7 +125,7 @@ class ApiError extends AppError {
       return ApiError(
         statusCode: statusCode,
         apiErrorType: ApiErrorType.unknown,
-        originText: responseErrorData,
+        originErrorText: responseErrorData,
         errorMessage: statusMessage ?? "Unknown Error",
         errorDetails: null,
       );

@@ -41,7 +41,7 @@ class ApiResult<D> {
   ApiErrorType? apiErrorType;
   String? errorMessage;
   List<String>? errorDetails;
-  String? originText;
+  String? originErrorText;
 
   // TODO: Remove.
   ApiResult({
@@ -50,7 +50,7 @@ class ApiResult<D> {
     this.apiErrorType,
     this.errorMessage,
     this.errorDetails,
-    this.originText,
+    this.originErrorText,
   });
 
   ApiResult.data(this.data);
@@ -60,7 +60,7 @@ class ApiResult<D> {
     this.apiErrorType,
     this.errorMessage,
     this.errorDetails,
-    this.originText,
+    this.originErrorText,
   });
 
   ApiError? toApiError() {
@@ -72,7 +72,7 @@ class ApiResult<D> {
       apiErrorType: apiErrorType,
       errorMessage: errorMessage!,
       errorDetails: errorDetails,
-      originText: originText,
+      originErrorText: originErrorText,
     );
   }
 
