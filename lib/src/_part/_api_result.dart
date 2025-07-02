@@ -39,7 +39,6 @@ class ApiResult<D> {
   D? data;
   int? statusCode;
   ApiErrorType? apiErrorType;
-  dynamic errorData;
   String? errorMessage;
   List<String>? errorDetails;
   String? originText;
@@ -52,7 +51,6 @@ class ApiResult<D> {
     this.errorMessage,
     this.errorDetails,
     this.originText,
-    this.errorData,
   });
 
   ApiResult.data(this.data);
@@ -63,7 +61,6 @@ class ApiResult<D> {
     this.errorMessage,
     this.errorDetails,
     this.originText,
-    this.errorData,
   });
 
   ApiError? toApiError() {
@@ -75,7 +72,7 @@ class ApiResult<D> {
       apiErrorType: apiErrorType,
       errorMessage: errorMessage!,
       errorDetails: errorDetails,
-      errorData: errorData,
+      originText: originText,
     );
   }
 
