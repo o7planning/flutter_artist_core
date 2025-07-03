@@ -38,10 +38,10 @@ part of '../../flutter_artist_core.dart';
 class ApiResult<D> {
   D? data;
   int? statusCode;
+  String? statusMessage;
   ApiError? apiError;
 
-  // TODO: Remove.
-  ApiResult({this.data, this.statusCode, this.apiError});
+  ApiResult({this.data, this.statusCode, this.statusMessage, this.apiError});
 
   ApiResult.data(this.data);
 
@@ -63,6 +63,7 @@ class ApiResult<D> {
 
   static ApiResult<D> fromDynamicData<D>({
     required int? statusCode,
+    required String? statusMessage,
     required dynamic data,
     required Converter? dataConverter,
   }) {
@@ -71,20 +72,24 @@ class ApiResult<D> {
     }
     if (data is String) {
       return fromJson<D>(
+        statusCode: statusCode,
+        statusMessage: statusMessage,
         json: data,
         dataConverter: dataConverter,
-        statusCode: statusCode,
       );
     } else if (data is Map<String, dynamic>) {
       return fromMap<D>(
+        statusCode: statusCode,
+        statusMessage: statusMessage,
         map: data,
         dataConverter: dataConverter,
-        statusCode: statusCode,
       );
     } else {
       // TODO: List??
       return ApiResult<D>.apiError(
         ApiError(
+          statusCode: statusCode,
+          statusMessage: statusMessage,
           errorMessage: "Not support response data type ${data.runtimeType}",
         ),
       );
@@ -92,9 +97,10 @@ class ApiResult<D> {
   }
 
   static ApiResult<D> fromJson<D>({
+    required int? statusCode,
+    required String? statusMessage,
     required String json,
     required Converter? dataConverter,
-    required int? statusCode,
   }) {
     if (json.trim().isEmpty) {
       return ApiResult();
@@ -105,15 +111,18 @@ class ApiResult<D> {
     } catch (e, stackTrace) {
       return ApiResult<D>.apiError(
         ApiError(
+          statusCode: statusCode,
+          statusMessage: statusMessage,
           apiErrorType: ApiErrorType.notJson,
           errorMessage: "Not JSON: $e",
         ),
       );
     }
     return fromMap(
+      statusCode: statusCode,
+      statusMessage: statusMessage,
       map: map,
       dataConverter: dataConverter,
-      statusCode: statusCode,
     );
   }
 
@@ -137,9 +146,10 @@ class ApiResult<D> {
   /// ```
   ///
   static ApiResult<D> fromMap<D>({
+    required int? statusCode,
+    required String? statusMessage,
     required Map<String, dynamic> map,
     required Converter? dataConverter,
-    required int? statusCode,
   }) {
     D? data;
     if (dataConverter != null) {
@@ -148,6 +158,8 @@ class ApiResult<D> {
       } catch (e, stackTrace) {
         return ApiResult<D>.apiError(
           ApiError(
+            statusCode: statusCode,
+            statusMessage: statusMessage,
             apiErrorType: ApiErrorType.conversion,
             errorMessage: "Data Convert error: $e",
             originErrorText: JsonUtils.jsonEncodeMap(map: map),
@@ -156,7 +168,11 @@ class ApiResult<D> {
       }
     }
     //
-    return ApiResult.data(data);
+    return ApiResult(
+      statusCode: statusCode,
+      statusMessage: statusMessage,
+      data: data,
+    );
   }
 
   bool isError() {
@@ -178,6 +194,7 @@ class ApiResult<D> {
     } else if (data == null) {
       throw ApiError(
         statusCode: statusCode,
+        statusMessage: statusMessage,
         errorMessage: nullDataMessage,
         errorDetails: null,
       );
@@ -199,8 +216,9 @@ class ApiResult<D> {
 
   ApiResult<void> toVoidResult() {
     return ApiResult<void>(
-      data: null,
       statusCode: statusCode,
+      statusMessage: statusMessage,
+      data: null,
       apiError: apiError,
     );
   }
@@ -208,8 +226,9 @@ class ApiResult<D> {
   ApiResult<F> convert<F>({required F Function(D data) converter}) {
     F? fData = data == null ? null : converter(data!);
     return ApiResult<F>(
-      data: fData,
       statusCode: statusCode,
+      statusMessage: statusMessage,
+      data: fData,
       apiError: apiError,
     );
   }
