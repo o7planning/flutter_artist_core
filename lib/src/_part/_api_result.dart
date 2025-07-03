@@ -49,12 +49,14 @@ class ApiResult<D> {
 
   ApiResult.error({
     this.statusCode,
+    this.statusMessage,
     ApiErrorType? apiErrorType,
     required String errorMessage,
     List<String>? errorDetails,
     String? originErrorText,
   }) : apiError = ApiError(
          statusCode: statusCode,
+         statusMessage: statusMessage,
          apiErrorType: apiErrorType,
          errorMessage: errorMessage,
          errorDetails: errorDetails,
@@ -232,19 +234,4 @@ class ApiResult<D> {
       apiError: apiError,
     );
   }
-}
-
-typedef ErrorConverter = String Function(dynamic);
-
-// {
-//   "result": "fail",
-//   "errorMessage": "Bad Request",
-//   "errorCode": "400",
-//   "errors": [
-//      "Exists Key Result.",
-//      "Exists Aligned Objective."
-//   ]
-// }
-String defaultErrorConverter(dynamic error) {
-  return error.toString();
 }
