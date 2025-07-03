@@ -63,4 +63,22 @@ extension ApiErrorTypeE on ApiErrorType {
         return "Conversion Error";
     }
   }
+
+  bool get isDartError {
+    switch (this) {
+      case ApiErrorType.connectionTimeout:
+      case ApiErrorType.sendTimeout:
+      case ApiErrorType.receiveTimeout:
+      case ApiErrorType.badCertificate:
+      case ApiErrorType.badResponse:
+      case ApiErrorType.cancel:
+      case ApiErrorType.connectionError:
+        return false;
+      case ApiErrorType.unknown:
+      case ApiErrorType.invalidJson:
+      case ApiErrorType.notJson:
+      case ApiErrorType.conversion:
+        return true;
+    }
+  }
 }
