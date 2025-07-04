@@ -41,7 +41,7 @@ class ApiResult<D> {
   String? statusMessage;
   ApiError? apiError;
 
-  ApiResult({this.data, this.statusCode, this.statusMessage, this.apiError});
+  // ApiResult({this.data, this.statusCode, this.statusMessage, this.apiError});
 
   ApiResult.data({this.data, this.statusCode, this.statusMessage});
 
@@ -72,7 +72,7 @@ class ApiResult<D> {
     required Converter? dataConverter,
   }) {
     if (data == null) {
-      return ApiResult<D>(
+      return ApiResult<D>.data(
         statusCode: statusCode,
         statusMessage: statusMessage,
         data: null,
@@ -111,7 +111,11 @@ class ApiResult<D> {
     required Converter? dataConverter,
   }) {
     if (json.trim().isEmpty) {
-      return ApiResult();
+      return ApiResult.data(
+        statusCode: statusCode,
+        statusMessage: statusMessage,
+        data: null,
+      );
     }
     Map<String, dynamic> map;
     try {
@@ -176,7 +180,7 @@ class ApiResult<D> {
       }
     }
     //
-    return ApiResult(
+    return ApiResult<D>.data(
       statusCode: statusCode,
       statusMessage: statusMessage,
       data: data,
@@ -211,33 +215,36 @@ class ApiResult<D> {
 
   ApiResult<PageData<D>> toPageDataResult() {
     PageData<D> pageData =
-        data ==
-                null //
+        data == null
             ? DefaultPageData.empty()
             : DefaultPageData.item(item: data as D);
-    return ApiResult<PageData<D>>(
-      data: pageData,
-      statusCode: statusCode,
-      apiError: apiError,
-    );
+    return apiError == null
+        ? ApiResult<PageData<D>>.data(
+          data: pageData,
+          statusCode: statusCode,
+          statusMessage: statusMessage,
+        )
+        : ApiResult<PageData<D>>.apiError(apiError!);
   }
 
   ApiResult<void> toVoidResult() {
-    return ApiResult<void>(
-      statusCode: statusCode,
-      statusMessage: statusMessage,
-      data: null,
-      apiError: apiError,
-    );
+    return apiError == null
+        ? ApiResult<void>.data(
+          statusCode: statusCode,
+          statusMessage: statusMessage,
+          data: null,
+        )
+        : ApiResult<void>.apiError(apiError!);
   }
 
   ApiResult<F> convert<F>({required F Function(D data) converter}) {
     F? fData = data == null ? null : converter(data!);
-    return ApiResult<F>(
-      statusCode: statusCode,
-      statusMessage: statusMessage,
-      data: fData,
-      apiError: apiError,
-    );
+    return apiError == null
+        ? ApiResult<F>.data(
+          statusCode: statusCode,
+          statusMessage: statusMessage,
+          data: fData,
+        )
+        : ApiResult<F>.apiError(apiError!);
   }
 }
