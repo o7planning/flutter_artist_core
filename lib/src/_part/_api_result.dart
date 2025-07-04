@@ -43,9 +43,11 @@ class ApiResult<D> {
 
   ApiResult({this.data, this.statusCode, this.statusMessage, this.apiError});
 
-  ApiResult.data(this.data);
+  ApiResult.data({this.data, this.statusCode, this.statusMessage});
 
-  ApiResult.apiError(ApiError this.apiError) : statusCode = apiError.statusCode;
+  ApiResult.apiError(ApiError this.apiError)
+    : statusCode = apiError.statusCode,
+      statusMessage = apiError.statusMessage;
 
   ApiResult.error({
     this.statusCode,
@@ -70,7 +72,11 @@ class ApiResult<D> {
     required Converter? dataConverter,
   }) {
     if (data == null) {
-      return ApiResult<D>();
+      return ApiResult<D>(
+        statusCode: statusCode,
+        statusMessage: statusMessage,
+        data: null,
+      );
     }
     if (data is String) {
       return fromJson<D>(

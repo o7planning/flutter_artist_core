@@ -1,59 +1,84 @@
 part of '../../flutter_artist_core.dart';
 
 class WrapApiResult {
-  String? result;
-  ApiErrorType? apiErrorType;
   int? statusCode;
-  String? errorMessage;
-  List<String>? errorDetails;
+  String? statusMessage;
+
+  //
+  String? result;
+  ApiError? apiError;
+
   Map<String, dynamic>? data;
-  String? originErrorText;
 
   WrapApiResult.error({
     this.statusCode,
-    required this.apiErrorType,
-    this.errorMessage,
-    this.errorDetails,
-    this.originErrorText,
-  });
+    this.statusMessage,
+    ApiErrorType? apiErrorType,
+    required String errorMessage,
+    List<String>? errorDetails,
+    String? originErrorText,
+  }) : apiError = ApiError(
+         statusCode: statusCode,
+         statusMessage: statusMessage,
+         apiErrorType: apiErrorType,
+         errorMessage: errorMessage,
+         errorDetails: errorDetails,
+         originErrorText: originErrorText,
+       );
 
-  WrapApiResult.data({this.data});
+  WrapApiResult.data({this.statusCode, this.statusMessage, this.data});
 
-  ApiError? toApiError() {
-    if (errorMessage != null) {
-      return ApiError(
-        apiErrorType: apiErrorType,
-        errorMessage: errorMessage!,
-        errorDetails: errorDetails,
-        statusCode: statusCode,
-        originErrorText: originErrorText,
-      );
-    }
-    return null;
-  }
-
-  static WrapApiResult? fromDynamicData(dynamic data) {
+  static WrapApiResult? fromDynamicData({
+    int? statusCode,
+    String? statusMessage,
+    dynamic data,
+  }) {
     if (data is String) {
-      return fromJson(data);
+      return fromJson(
+        statusCode: statusCode,
+        statusMessage: statusMessage,
+        json: data,
+      );
+    } else if (data is Map<String, dynamic>) {
+      return fromMap(
+        statusCode: statusCode,
+        statusMessage: statusMessage,
+        map: data,
+      );
     } else {
-      return fromMap(data);
+      // TODO:
+      throw UnimplementedError();
     }
   }
 
-  static WrapApiResult? fromMap(Map<String, dynamic> map) {
+  static WrapApiResult? fromMap({
+    int? statusCode,
+    String? statusMessage,
+    required Map<String, dynamic> map,
+  }) {
     Map<String, dynamic>? data;
     try {
       data = map['data'];
     } catch (e, stackTrace) {
       return WrapApiResult.error(
+        statusCode: statusCode,
+        statusMessage: statusMessage,
         apiErrorType: ApiErrorType.invalidJson,
         errorMessage: "Invalid JSON - 'data' attribute invalid",
       );
     }
-    return WrapApiResult.data(data: data);
+    return WrapApiResult.data(
+      statusCode: statusCode,
+      statusMessage: statusMessage,
+      data: data,
+    );
   }
 
-  static WrapApiResult? fromJson(String json) {
+  static WrapApiResult? fromJson({
+    int? statusCode,
+    String? statusMessage,
+    required String json,
+  }) {
     if (json.trim().isEmpty) {
       return null;
     }
@@ -62,10 +87,16 @@ class WrapApiResult {
       map = jsonDecode(json);
     } catch (e, stackTrace) {
       return WrapApiResult.error(
+        statusCode: statusCode,
+        statusMessage: statusMessage,
         apiErrorType: ApiErrorType.notJson,
         errorMessage: "Not JSON: $e",
       );
     }
-    return fromMap(map);
+    return fromMap(
+      statusCode: statusCode,
+      statusMessage: statusMessage,
+      map: map,
+    );
   }
 }
