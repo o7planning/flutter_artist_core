@@ -39,14 +39,23 @@ class ApiResult<D> {
   D? data;
   int? statusCode;
   String? statusMessage;
+
   ApiError? apiError;
 
-  // ApiResult({this.data, this.statusCode, this.statusMessage, this.apiError});
-
-  ApiResult.data({this.data, this.statusCode, this.statusMessage});
+  ApiResult.data({this.data, this.statusCode, this.statusMessage})
+    : assert(
+        statusCode == null ||
+            statusCode == 304 ||
+            (statusCode >= 200 && statusCode < 300),
+      );
 
   ApiResult.apiError(ApiError this.apiError)
-    : statusCode = apiError.statusCode,
+    : assert(
+        apiError.statusCode == null ||
+            apiError.statusCode! < 200 ||
+            (apiError.statusCode! > 300 && apiError.statusCode != 304),
+      ),
+      statusCode = apiError.statusCode,
       statusMessage = apiError.statusMessage;
 
   ApiResult.error({
@@ -56,7 +65,12 @@ class ApiResult<D> {
     required String errorMessage,
     List<String>? errorDetails,
     String? originErrorText,
-  }) : apiError = ApiError(
+  }) : assert(
+         statusCode == null ||
+             statusCode < 200 ||
+             (statusCode > 300 && statusCode != 304),
+       ),
+       apiError = ApiError(
          statusCode: statusCode,
          statusMessage: statusMessage,
          apiErrorType: apiErrorType,
