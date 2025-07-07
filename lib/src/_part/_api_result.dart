@@ -42,19 +42,20 @@ class ApiResult<D> {
 
   ApiError? apiError;
 
-  ApiResult.data({this.data, this.statusCode, this.statusMessage})
-    : assert(
-        statusCode == null ||
-            statusCode == 304 ||
-            (statusCode >= 200 && statusCode < 300),
-      );
+  ApiResult.data({this.data, this.statusCode, this.statusMessage});
+
+  // : assert(
+  //     statusCode == null ||
+  //         statusCode == 304 ||
+  //         (statusCode >= 200 && statusCode < 300),
+  //   );
 
   ApiResult.apiError(ApiError this.apiError)
-    : assert(
-        apiError.statusCode == null ||
-            apiError.statusCode! < 200 ||
-            (apiError.statusCode! > 300 && apiError.statusCode != 304),
-      ),
+    : // assert(
+      //   apiError.statusCode == null ||
+      //       apiError.statusCode! < 200 ||
+      //       (apiError.statusCode! >= 300 && apiError.statusCode != 304),
+      // ),
       statusCode = apiError.statusCode,
       statusMessage = apiError.statusMessage;
 
@@ -65,11 +66,11 @@ class ApiResult<D> {
     required String errorMessage,
     List<String>? errorDetails,
     String? originErrorText,
-  }) : assert(
-         statusCode == null ||
-             statusCode < 200 ||
-             (statusCode > 300 && statusCode != 304),
-       ),
+  }) : // assert(
+       //   statusCode == null ||
+       //       statusCode < 200 ||
+       //       (statusCode > 300 && statusCode != 304),
+       // ),
        apiError = ApiError(
          statusCode: statusCode,
          statusMessage: statusMessage,
@@ -182,6 +183,7 @@ class ApiResult<D> {
       try {
         data = dataConverter(map);
       } catch (e, stackTrace) {
+        print(stackTrace);
         return ApiResult<D>.apiError(
           ApiError(
             statusCode: statusCode,
