@@ -191,6 +191,7 @@ class ApiResult<D> {
             apiErrorType: ApiErrorType.conversion,
             errorMessage: "Data Convert error: $e",
             originErrorText: JsonUtils.jsonEncodeMap(map: map),
+            usedConverter: dataConverter,
           ),
         );
       }
