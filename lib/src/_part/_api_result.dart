@@ -42,7 +42,7 @@ class ApiResult<D> {
 
   ApiError? apiError;
 
-  ApiResult.data({this.data, this.statusCode, this.statusMessage});
+  ApiResult.success({this.data, this.statusCode, this.statusMessage});
 
   // : assert(
   //     statusCode == null ||
