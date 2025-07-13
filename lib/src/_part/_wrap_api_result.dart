@@ -26,7 +26,7 @@ class WrapApiResult {
          originErrorText: originErrorText,
        );
 
-  WrapApiResult.data({this.statusCode, this.statusMessage, this.data});
+  WrapApiResult.success({this.statusCode, this.statusMessage, this.data});
 
   static WrapApiResult? fromDynamicData({
     int? statusCode,
@@ -67,7 +67,7 @@ class WrapApiResult {
         errorMessage: "Invalid JSON - 'data' attribute invalid",
       );
     }
-    return WrapApiResult.data(
+    return WrapApiResult.success(
       statusCode: statusCode,
       statusMessage: statusMessage,
       data: data,

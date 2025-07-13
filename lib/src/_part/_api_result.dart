@@ -36,28 +36,19 @@ part of '../../flutter_artist_core.dart';
 /// ```
 ///
 class ApiResult<D> {
-  D? data;
-  int? statusCode;
-  String? statusMessage;
+  final D? data;
+  final int? statusCode;
+  final String? statusMessage;
 
-  ApiError? apiError;
+  final ApiError? apiError;
 
-  ApiResult.success({this.data, this.statusCode, this.statusMessage});
-
-  // : assert(
-  //     statusCode == null ||
-  //         statusCode == 304 ||
-  //         (statusCode >= 200 && statusCode < 300),
-  //   );
-
-  ApiResult.apiError(ApiError this.apiError)
-    : // assert(
-      //   apiError.statusCode == null ||
-      //       apiError.statusCode! < 200 ||
-      //       (apiError.statusCode! >= 300 && apiError.statusCode != 304),
-      // ),
-      statusCode = apiError.statusCode,
-      statusMessage = apiError.statusMessage;
+  ApiResult.success({this.data, this.statusCode, this.statusMessage})
+    : assert(
+        statusCode == null ||
+            statusCode == 304 ||
+            (statusCode >= 200 && statusCode < 300),
+      ),
+      apiError = null;
 
   ApiResult.error({
     this.statusCode,
@@ -78,7 +69,18 @@ class ApiResult<D> {
          errorMessage: errorMessage,
          errorDetails: errorDetails,
          originErrorText: originErrorText,
-       );
+       ),
+       data = null;
+
+  ApiResult.apiError(ApiError this.apiError)
+    : // assert(
+      //   apiError.statusCode == null ||
+      //       apiError.statusCode! < 200 ||
+      //       (apiError.statusCode! >= 300 && apiError.statusCode != 304),
+      // ),
+      statusCode = apiError.statusCode,
+      statusMessage = apiError.statusMessage,
+      data = null;
 
   static ApiResult<D> fromDynamicData<D>({
     required int? statusCode,
@@ -87,7 +89,7 @@ class ApiResult<D> {
     required Converter? dataConverter,
   }) {
     if (data == null) {
-      return ApiResult<D>.data(
+      return ApiResult<D>.success(
         statusCode: statusCode,
         statusMessage: statusMessage,
         data: null,
@@ -126,7 +128,7 @@ class ApiResult<D> {
     required Converter? dataConverter,
   }) {
     if (json.trim().isEmpty) {
-      return ApiResult.data(
+      return ApiResult.success(
         statusCode: statusCode,
         statusMessage: statusMessage,
         data: null,
@@ -197,7 +199,7 @@ class ApiResult<D> {
       }
     }
     //
-    return ApiResult<D>.data(
+    return ApiResult<D>.success(
       statusCode: statusCode,
       statusMessage: statusMessage,
       data: data,
@@ -236,7 +238,7 @@ class ApiResult<D> {
             ? DefaultPageData.empty()
             : DefaultPageData.item(item: data as D);
     return apiError == null
-        ? ApiResult<PageData<D>>.data(
+        ? ApiResult<PageData<D>>.success(
           data: pageData,
           statusCode: statusCode,
           statusMessage: statusMessage,
@@ -246,7 +248,7 @@ class ApiResult<D> {
 
   ApiResult<void> toVoidResult() {
     return apiError == null
-        ? ApiResult<void>.data(
+        ? ApiResult<void>.success(
           statusCode: statusCode,
           statusMessage: statusMessage,
           data: null,
@@ -257,7 +259,7 @@ class ApiResult<D> {
   ApiResult<F> convert<F>({required F Function(D data) converter}) {
     F? fData = data == null ? null : converter(data!);
     return apiError == null
-        ? ApiResult<F>.data(
+        ? ApiResult<F>.success(
           statusCode: statusCode,
           statusMessage: statusMessage,
           data: fData,
