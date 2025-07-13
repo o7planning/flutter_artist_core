@@ -72,7 +72,7 @@ class ApiResult<D> {
        ),
        data = null;
 
-  ApiResult.apiError(ApiError this.apiError)
+  ApiResult.fromError(ApiError this.apiError)
     : // assert(
       //   apiError.statusCode == null ||
       //       apiError.statusCode! < 200 ||
@@ -111,7 +111,7 @@ class ApiResult<D> {
       );
     } else {
       // TODO: List??
-      return ApiResult<D>.apiError(
+      return ApiResult<D>.fromError(
         ApiError(
           statusCode: statusCode,
           statusMessage: statusMessage,
@@ -138,7 +138,7 @@ class ApiResult<D> {
     try {
       map = jsonDecode(json);
     } catch (e, stackTrace) {
-      return ApiResult<D>.apiError(
+      return ApiResult<D>.fromError(
         ApiError(
           statusCode: statusCode,
           statusMessage: statusMessage,
@@ -186,7 +186,7 @@ class ApiResult<D> {
         data = dataConverter(map);
       } catch (e, stackTrace) {
         print(stackTrace);
-        return ApiResult<D>.apiError(
+        return ApiResult<D>.fromError(
           ApiError(
             statusCode: statusCode,
             statusMessage: statusMessage,
@@ -243,7 +243,7 @@ class ApiResult<D> {
           statusCode: statusCode,
           statusMessage: statusMessage,
         )
-        : ApiResult<PageData<D>>.apiError(apiError!);
+        : ApiResult<PageData<D>>.fromError(apiError!);
   }
 
   ApiResult<void> toVoidResult() {
@@ -253,7 +253,7 @@ class ApiResult<D> {
           statusMessage: statusMessage,
           data: null,
         )
-        : ApiResult<void>.apiError(apiError!);
+        : ApiResult<void>.fromError(apiError!);
   }
 
   ApiResult<F> convert<F>({required F Function(D data) converter}) {
@@ -264,6 +264,6 @@ class ApiResult<D> {
           statusMessage: statusMessage,
           data: fData,
         )
-        : ApiResult<F>.apiError(apiError!);
+        : ApiResult<F>.fromError(apiError!);
   }
 }
