@@ -39,8 +39,7 @@ class ApiResult<D> {
   final D? data;
   final int? statusCode;
   final String? statusMessage;
-
-  final ApiError? apiError;
+  final ApiError? error;
 
   ApiResult.success({this.data, this.statusCode, this.statusMessage})
     : assert(
@@ -48,12 +47,12 @@ class ApiResult<D> {
             statusCode == 304 ||
             (statusCode >= 200 && statusCode < 300),
       ),
-      apiError = null;
+      error = null;
 
   ApiResult.error({
     this.statusCode,
     this.statusMessage,
-    ApiErrorType? apiErrorType,
+    ApiErrorType? errorType,
     required String errorMessage,
     List<String>? errorDetails,
     String? originErrorText,
@@ -62,24 +61,24 @@ class ApiResult<D> {
        //       statusCode < 200 ||
        //       (statusCode > 300 && statusCode != 304),
        // ),
-       apiError = ApiError(
+       error = ApiError(
          statusCode: statusCode,
          statusMessage: statusMessage,
-         apiErrorType: apiErrorType,
+         errorType: errorType,
          errorMessage: errorMessage,
          errorDetails: errorDetails,
          originErrorText: originErrorText,
        ),
        data = null;
 
-  ApiResult.fromError(ApiError this.apiError)
+  ApiResult.fromError(ApiError this.error)
     : // assert(
-      //   apiError.statusCode == null ||
-      //       apiError.statusCode! < 200 ||
-      //       (apiError.statusCode! >= 300 && apiError.statusCode != 304),
+      //   error.statusCode == null ||
+      //       error.statusCode! < 200 ||
+      //       (error.statusCode! >= 300 && error.statusCode != 304),
       // ),
-      statusCode = apiError.statusCode,
-      statusMessage = apiError.statusMessage,
+      statusCode = error.statusCode,
+      statusMessage = error.statusMessage,
       data = null;
 
   static ApiResult<D> fromDynamicData<D>({
@@ -142,7 +141,7 @@ class ApiResult<D> {
         ApiError(
           statusCode: statusCode,
           statusMessage: statusMessage,
-          apiErrorType: ApiErrorType.notJson,
+          errorType: ApiErrorType.notJson,
           errorMessage: "Not JSON: $e",
         ),
       );
@@ -190,7 +189,7 @@ class ApiResult<D> {
           ApiError(
             statusCode: statusCode,
             statusMessage: statusMessage,
-            apiErrorType: ApiErrorType.conversion,
+            errorType: ApiErrorType.conversion,
             errorMessage: "Data Convert error: $e",
             originErrorText: JsonUtils.jsonEncodeMap(map: map),
             usedConverter: dataConverter,
@@ -207,12 +206,12 @@ class ApiResult<D> {
   }
 
   bool isError() {
-    return apiError != null;
+    return error != null;
   }
 
   void throwIfError() {
     if (isError()) {
-      throw apiError!;
+      throw error!;
     }
   }
 
@@ -221,7 +220,7 @@ class ApiResult<D> {
   ///
   void throwIfErrorOrDataNull({required String nullDataMessage}) {
     if (isError()) {
-      throw apiError!;
+      throw error!;
     } else if (data == null) {
       throw ApiError(
         statusCode: statusCode,
@@ -237,33 +236,33 @@ class ApiResult<D> {
         data == null
             ? DefaultPageData.empty()
             : DefaultPageData.item(item: data as D);
-    return apiError == null
+    return error == null
         ? ApiResult<PageData<D>>.success(
           data: pageData,
           statusCode: statusCode,
           statusMessage: statusMessage,
         )
-        : ApiResult<PageData<D>>.fromError(apiError!);
+        : ApiResult<PageData<D>>.fromError(error!);
   }
 
   ApiResult<void> toVoidResult() {
-    return apiError == null
+    return error == null
         ? ApiResult<void>.success(
           statusCode: statusCode,
           statusMessage: statusMessage,
           data: null,
         )
-        : ApiResult<void>.fromError(apiError!);
+        : ApiResult<void>.fromError(error!);
   }
 
   ApiResult<F> convert<F>({required F Function(D data) converter}) {
     F? fData = data == null ? null : converter(data!);
-    return apiError == null
+    return error == null
         ? ApiResult<F>.success(
           statusCode: statusCode,
           statusMessage: statusMessage,
           data: fData,
         )
-        : ApiResult<F>.fromError(apiError!);
+        : ApiResult<F>.fromError(error!);
   }
 }

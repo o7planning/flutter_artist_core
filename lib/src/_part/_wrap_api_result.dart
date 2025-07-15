@@ -6,21 +6,21 @@ class WrapApiResult {
 
   //
   String? result;
-  ApiError? apiError;
+  ApiError? error;
 
   Map<String, dynamic>? data;
 
   WrapApiResult.error({
     this.statusCode,
     this.statusMessage,
-    ApiErrorType? apiErrorType,
+    ApiErrorType? errorType,
     required String errorMessage,
     List<String>? errorDetails,
     String? originErrorText,
-  }) : apiError = ApiError(
+  }) : error = ApiError(
          statusCode: statusCode,
          statusMessage: statusMessage,
-         apiErrorType: apiErrorType,
+         errorType: errorType,
          errorMessage: errorMessage,
          errorDetails: errorDetails,
          originErrorText: originErrorText,
@@ -63,7 +63,7 @@ class WrapApiResult {
       return WrapApiResult.error(
         statusCode: statusCode,
         statusMessage: statusMessage,
-        apiErrorType: ApiErrorType.invalidJson,
+        errorType: ApiErrorType.invalidJson,
         errorMessage: "Invalid JSON - 'data' attribute invalid",
       );
     }
@@ -89,7 +89,7 @@ class WrapApiResult {
       return WrapApiResult.error(
         statusCode: statusCode,
         statusMessage: statusMessage,
-        apiErrorType: ApiErrorType.notJson,
+        errorType: ApiErrorType.notJson,
         errorMessage: "Not JSON: $e",
       );
     }
