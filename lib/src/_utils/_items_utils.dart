@@ -429,4 +429,15 @@ class ItemsUtils {
   }) {
     targetList.removeWhere((it) => getItemId(it) == id);
   }
+
+  static List<ITEM> removeDuplicatedItems<ITEM, ID>({
+    required List<ITEM> items,
+    required ID Function(ITEM it) getItemId,
+  }) {
+    Map<ID, ITEM> map = {};
+    for (ITEM it in items) {
+      map[getItemId(it)] = it;
+    }
+    return [...map.values];
+  }
 }
