@@ -1,5 +1,6 @@
 part of '../../flutter_artist_core.dart';
 
+// Docs: 14739/15a
 class PageableData {
   final int page;
   final int? pageSize;

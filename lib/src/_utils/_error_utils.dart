@@ -8,7 +8,7 @@ class ErrorUtils {
       return AppError(errorMessage: error.toString());
     } else if (error is Error) {
       return AppError(errorMessage: error.toString());
-    } else if(error is List<int>) {
+    } else if (error is List<int>) {
       return AppError(errorMessage: "Data List<int> error");
     }
     return AppError(errorMessage: error.toString());

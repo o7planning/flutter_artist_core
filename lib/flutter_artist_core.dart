@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+export 'src/_enum/_sort_rule_side.dart';
+
 part 'src/_error/_api_error.dart';
 part 'src/_error/_api_error_type.dart';
 part 'src/_error/_app_error.dart';

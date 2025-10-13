@@ -1,0 +1,1 @@
+enum SortRuleSide { blockSide, viewSide }
