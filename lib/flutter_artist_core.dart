@@ -11,7 +11,7 @@ part 'src/_part/_api_result.dart';
 part 'src/_part/_data_converter.dart';
 part 'src/_part/_logged_in_user.dart';
 part 'src/_part/_page_data.dart';
-part 'src/_part/_pageable_data.dart';
+part 'src/_part/_pageable.dart';
 part 'src/_part/_pagination_data.dart';
 part 'src/_part/_read_token_from_headers.dart';
 part 'src/_part/_response_data_mode.dart';
