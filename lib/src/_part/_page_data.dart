@@ -3,7 +3,7 @@ part of '../../flutter_artist_core.dart';
 abstract class PageData<ITEM> {
   List<ITEM> get items;
 
-  PaginationData? get pagination;
+  PaginationInfo? get paginationInfo;
 
   static PageData<ITEM> empty<ITEM>() {
     return DefaultPageData.items(items: []);
@@ -20,21 +20,23 @@ abstract class PageData<ITEM> {
 
 class DefaultPageData<I> extends PageData<I> {
   final List<I> _items;
-  final PaginationData? _pagination;
+  final PaginationInfo? _paginationInfo;
 
   @override
   List<I> get items => [..._items];
 
   @override
-  PaginationData? get pagination => _pagination;
+  PaginationInfo? get paginationInfo => _paginationInfo;
 
-  DefaultPageData({required List<I> items, required PaginationData? pagination})
-    : _items = items,
-      _pagination = pagination;
+  DefaultPageData({
+    required List<I> items,
+    required PaginationInfo? paginationInfo,
+  }) : _items = items,
+       _paginationInfo = paginationInfo;
 
   DefaultPageData.items({required List<I> items})
     : _items = items,
-      _pagination = PaginationData(
+      _paginationInfo = PaginationInfo(
         currentPage: 1,
         pageSize: items.length,
         totalItems: items.length,
@@ -43,7 +45,7 @@ class DefaultPageData<I> extends PageData<I> {
 
   DefaultPageData.item({required I item})
     : _items = [item],
-      _pagination = PaginationData(
+      _paginationInfo = PaginationInfo(
         currentPage: 1,
         pageSize: 1,
         totalItems: 1,
@@ -52,7 +54,7 @@ class DefaultPageData<I> extends PageData<I> {
 
   DefaultPageData.empty()
     : _items = [],
-      _pagination = PaginationData(
+      _paginationInfo = PaginationInfo(
         currentPage: 1,
         pageSize: 1,
         totalItems: 0,

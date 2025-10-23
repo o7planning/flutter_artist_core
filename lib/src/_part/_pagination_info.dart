@@ -1,12 +1,12 @@
 part of '../../flutter_artist_core.dart';
 
-interface class PaginationData {
+interface class PaginationInfo {
   final int _currentPage;
   final int _pageSize;
   final int _totalItems;
   final int _totalPages;
 
-  PaginationData({
+  PaginationInfo({
     required int currentPage,
     required int pageSize,
     required int totalItems,
@@ -16,7 +16,7 @@ interface class PaginationData {
        _totalItems = totalItems,
        _totalPages = totalPages;
 
-  PaginationData.empty()
+  PaginationInfo.empty()
     : _currentPage = 1,
       _pageSize = 0,
       _totalItems = 0,
@@ -30,10 +30,10 @@ interface class PaginationData {
 
   int get totalPages => _totalPages;
 
-  static PaginationData? copy(PaginationData? source) {
+  static PaginationInfo? copy(PaginationInfo? source) {
     return source == null
         ? null
-        : PaginationData(
+        : PaginationInfo(
           currentPage: source.currentPage,
           pageSize: source.pageSize,
           totalItems: source.totalItems,
