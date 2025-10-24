@@ -6,6 +6,14 @@ interface class PaginationInfo {
   final int _totalItems;
   final int _totalPages;
 
+  int get currentPage => _currentPage;
+
+  int get pageSize => _pageSize;
+
+  int get totalItems => _totalItems;
+
+  int get totalPages => _totalPages;
+
   PaginationInfo({
     required int currentPage,
     required int pageSize,
@@ -21,14 +29,6 @@ interface class PaginationInfo {
       _pageSize = 0,
       _totalItems = 0,
       _totalPages = 0;
-
-  int get currentPage => _currentPage;
-
-  int get pageSize => _pageSize;
-
-  int get totalItems => _totalItems;
-
-  int get totalPages => _totalPages;
 
   static PaginationInfo? copy(PaginationInfo? source) {
     return source == null
