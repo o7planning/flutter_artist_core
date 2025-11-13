@@ -5,15 +5,17 @@ abstract class PageData<ITEM> {
 
   PaginationInfo? get paginationInfo;
 
-  static PageData<ITEM> empty<ITEM>() {
+  PageData();
+
+  factory PageData.empty() {
     return DefaultPageData.items(items: []);
   }
 
-  static PageData<ITEM> ofItem<ITEM>(ITEM item) {
+  factory PageData.ofItem(ITEM item) {
     return DefaultPageData.item(item: item);
   }
 
-  static PageData<ITEM> ofItems<ITEM>(List<ITEM> items) {
+  factory PageData.ofItems(List<ITEM> items) {
     return DefaultPageData.items(items: items);
   }
 }

@@ -81,7 +81,7 @@ class ApiResult<D> {
       statusMessage = error.statusMessage,
       data = null;
 
-  static ApiResult<D> fromDynamicData<D>({
+  factory ApiResult.fromDynamicData({
     required int? statusCode,
     required String? statusMessage,
     required dynamic data,
@@ -95,14 +95,14 @@ class ApiResult<D> {
       );
     }
     if (data is String) {
-      return fromJson<D>(
+      return ApiResult.fromJson(
         statusCode: statusCode,
         statusMessage: statusMessage,
         json: data,
         dataConverter: dataConverter,
       );
     } else if (data is Map<String, dynamic>) {
-      return fromMap<D>(
+      return ApiResult.fromMap(
         statusCode: statusCode,
         statusMessage: statusMessage,
         map: data,
@@ -120,7 +120,7 @@ class ApiResult<D> {
     }
   }
 
-  static ApiResult<D> fromJson<D>({
+  factory ApiResult.fromJson({
     required int? statusCode,
     required String? statusMessage,
     required String json,
@@ -146,7 +146,7 @@ class ApiResult<D> {
         ),
       );
     }
-    return fromMap(
+    return ApiResult.fromMap(
       statusCode: statusCode,
       statusMessage: statusMessage,
       map: map,
@@ -173,7 +173,7 @@ class ApiResult<D> {
   /// }
   /// ```
   ///
-  static ApiResult<D> fromMap<D>({
+  factory ApiResult.fromMap({
     required int? statusCode,
     required String? statusMessage,
     required Map<String, dynamic> map,

@@ -25,7 +25,7 @@ class ApiError extends AppError {
     this.usedConverter,
   });
 
-  static ApiError fromMap({
+  factory ApiError.fromMap({
     required ApiErrorType errorType,
     required int? statusCode,
     required String? statusMessage,
@@ -64,7 +64,7 @@ class ApiError extends AppError {
     );
   }
 
-  static ApiError fromResponseErrorData({
+  factory ApiError.fromResponseErrorData({
     required ApiErrorType errorType,
     required int? statusCode,
     required String? statusMessage,
