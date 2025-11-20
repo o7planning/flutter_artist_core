@@ -102,12 +102,12 @@ class DefaultPageData<I> extends PageData<I> {
       totalPages: totalPages,
     );
     int start = (currentPage - 1) * pageSize;
-    int end = currentPage * pageSize - 1;
+    int end = currentPage * pageSize;
     List<I> items;
     if (start > allItems.length - 1) {
       items = [];
     } else {
-      items = allItems.sublist(start, min(allItems.length - 1, end));
+      items = allItems.sublist(start, min(allItems.length, end));
     }
 
     return DefaultPageData(paginationInfo: paginationInfo, items: items);
