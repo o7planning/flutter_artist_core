@@ -10,6 +10,7 @@ part 'src/_error/_error_info.dart';
 part 'src/_error/_log_error_info.dart';
 part 'src/_part/_api_result.dart';
 part 'src/_part/_data_converter.dart';
+part 'src/_part/_identifiable.dart';
 part 'src/_part/_logged_in_user.dart';
 part 'src/_part/_page_data.dart';
 part 'src/_part/_pageable.dart';
