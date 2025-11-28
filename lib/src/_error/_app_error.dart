@@ -13,6 +13,10 @@ class AppError {
 
   AppError({required this.errorMessage, this.errorDetails});
 
+  factory AppError.fromError({required dynamic error}) {
+    return ErrorUtils.toAppError(error);
+  }
+
   @override
   String toString() {
     return errorMessage;

@@ -10,4 +10,16 @@ class ErrorInfo {
     required this.errorDetails,
     required this.stackTrace,
   });
+
+  factory ErrorInfo.fromError({
+    required dynamic error,
+    required StackTrace? stackTrace,
+  }) {
+    final appError = AppError.fromError(error: error);
+    return ErrorInfo(
+      errorMessage: appError.errorMessage,
+      errorDetails: appError.errorDetails,
+      stackTrace: stackTrace,
+    );
+  }
 }
