@@ -245,6 +245,16 @@ class ApiResult<D> {
         : ApiResult<PageData<D>>.fromError(error!);
   }
 
+  ApiResult<R> toNullDataResult<R>() {
+    return error == null
+        ? ApiResult<R>.success(
+          statusCode: statusCode,
+          statusMessage: statusMessage,
+          data: null,
+        )
+        : ApiResult<R>.fromError(error!);
+  }
+
   ApiResult<void> toVoidResult() {
     return error == null
         ? ApiResult<void>.success(
