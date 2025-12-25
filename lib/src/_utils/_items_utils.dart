@@ -174,19 +174,19 @@ class ItemsUtils {
     );
   }
 
-  // static void removeDuplicatedItemsFromList<ITEM, ID>({
-  //   required List<ITEM> targetList,
-  //   required ID Function(ITEM item) getItemId,
-  // }) {
-  //   List<ITEM> newList= [];
-  //
-  //   int idx = targetList.indexWhere((it) {
-  //     return getItemId(it) == getItemId(removeItem);
-  //   });
-  //   if (idx != -1) {
-  //     targetList.removeAt(idx);
-  //   }
-  // }
+  static void removeItemsFromList<ITEM, ID>({
+    required List<ITEM> removeItems,
+    required List<ITEM> targetList,
+    required ID Function(ITEM item) getItemId,
+  }) {
+    for (ITEM removeItem in removeItems) {
+      removeItemFromList(
+        removeItem: removeItem,
+        targetList: targetList,
+        getItemId: getItemId,
+      );
+    }
+  }
 
   static void removeItemFromList<ITEM, ID>({
     required ITEM removeItem,
