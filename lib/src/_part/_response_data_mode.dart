@@ -28,6 +28,7 @@ enum ResponseDataMode {
   ///  }
   ///  ```
   ///
+  @Deprecated("No longer used")
   wrappedData,
 
   ///

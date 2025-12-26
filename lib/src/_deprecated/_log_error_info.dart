@@ -1,5 +1,6 @@
 part of '../../flutter_artist_core.dart';
 
+@Deprecated("No Longer Used")
 class LogErrorInfo extends ErrorInfo {
   final int id;
   final String? shelfName;
