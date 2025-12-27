@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter_artist_core/src/_enum/_log_entry_type.dart';
 
-export 'src/_adapter/_flutter_artist_core_features_adapter.dart';
+export 'src/_adapter/_core_features_adapter.dart';
 export 'src/_adapter/_locale_adapter.dart';
 export 'src/_adapter/_login_logout_adapter.dart';
 export 'src/_enum/_sort_rule_side.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-interface class IFlutterArtistCoreFeaturesAdapter {
+interface class ICoreFeaturesAdapter {
   Future<dynamic> showOverlay({
     double opacity = 0,
     required Future<dynamic> Function() asyncFunction,
