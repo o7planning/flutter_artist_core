@@ -6,7 +6,9 @@ import 'package:flutter_artist_core/src/_enum/_log_entry_type.dart';
 export 'src/_adapter/_core_features_adapter.dart';
 export 'src/_adapter/_locale_adapter.dart';
 export 'src/_adapter/_login_logout_adapter.dart';
+export 'src/_enum/_log_entry_type.dart';
 export 'src/_enum/_sort_rule_side.dart';
+export 'src/_exception/_feature_unsupported_exception.dart';
 
 part 'src/_deprecated/_log_error_info.dart';
 part 'src/_deprecated/_read_token_from_headers.dart';
