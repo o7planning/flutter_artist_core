@@ -18,4 +18,17 @@ class MapUtils {
     }
     return true;
   }
+
+  static String toOneLevelJson(Map<String, dynamic> map) {
+    String json;
+    try {
+      json = jsonEncode(map, toEncodable: (obj) => obj.toString());
+      Map<String, dynamic> m2 = jsonDecode(json);
+      JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+      String s = encoder.convert(m2);
+      return s;
+    } catch (e) {
+      return "Error convert to JSON: $e";
+    }
+  }
 }
