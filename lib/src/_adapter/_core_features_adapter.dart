@@ -1,54 +1,37 @@
 import 'package:flutter/material.dart';
 
-interface class ICoreFeaturesAdapter {
+// Docs: [14863].
+abstract interface class ICoreFeaturesAdapter {
+  BuildContext getCurrentContext();
+
   Future<dynamic> showOverlay({
     double opacity = 0,
     required Future<dynamic> Function() asyncFunction,
-  }) {
-    throw UnimplementedError();
-  }
+  });
 
-  bool isOverlaysOpen() {
-    throw UnimplementedError();
-  }
+  bool isOverlaysOpen();
 
-  void closeAllDialogs() {
-    throw UnimplementedError();
-  }
+  void closeAllDialogs();
 
   void showMessageSnackBar({
     required String message,
     required List<String>? details,
-  }) {
-    throw UnimplementedError();
-  }
+  });
 
   void showWarningSnackBar({
     required String message,
     required List<String>? details,
-  }) {
-    throw UnimplementedError();
-  }
+  });
 
   void showErrorSnackBar({
     required String message,
     required List<String>? details,
-  }) {
-    throw UnimplementedError();
-  }
+  });
 
-  void showSavedSnackBar({Duration duration = const Duration(seconds: 2)}) {
-    throw UnimplementedError();
-  }
+  void showSavedSnackBar({Duration duration = const Duration(seconds: 2)});
 
   void showDeletedSnackBar({
     String? customMessage,
     Duration duration = const Duration(seconds: 2),
-  }) {
-    throw UnimplementedError();
-  }
-
-  BuildContext getCurrentContext() {
-    throw UnimplementedError();
-  }
+  });
 }
