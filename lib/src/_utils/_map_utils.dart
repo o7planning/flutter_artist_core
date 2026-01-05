@@ -19,12 +19,33 @@ class MapUtils {
     return true;
   }
 
-  static String toOneLevelJson(Map<String, dynamic> map) {
+  static String toOneLevelJson({
+    required Map<String, dynamic> map,
+    int indent = 3,
+  }) {
+    final String indentString = " " * indent;
     String json;
     try {
       json = jsonEncode(map, toEncodable: (obj) => obj.toString());
       Map<String, dynamic> m2 = jsonDecode(json);
-      JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+      JsonEncoder encoder = JsonEncoder.withIndent(indentString);
+      String s = encoder.convert(m2);
+      return s;
+    } catch (e) {
+      return "Error convert to JSON: $e";
+    }
+  }
+
+  static String toJson({
+    required Map<String, dynamic> map,
+    int indent = 3,
+  }) {
+    final String indentString = " " * indent;
+    String json;
+    try {
+      json = jsonEncode(map, toEncodable: (obj) => obj.toString());
+      Map<String, dynamic> m2 = jsonDecode(json);
+      JsonEncoder encoder = JsonEncoder.withIndent(indentString);
       String s = encoder.convert(m2);
       return s;
     } catch (e) {
