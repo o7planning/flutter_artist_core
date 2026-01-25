@@ -32,7 +32,7 @@ class MapUtils {
     }
   }
 
-  static String toJson({required Map<String, dynamic> map, int indent = 3}) {
+  static String toJson({required Map<String, dynamic> map, int indent = 4}) {
     String json;
     try {
       json = jsonEncode(map, toEncodable: (obj) => obj.toString());
