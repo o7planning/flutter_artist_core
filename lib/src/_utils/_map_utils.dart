@@ -37,7 +37,7 @@ class MapUtils {
     try {
       json = jsonEncode(map, toEncodable: (obj) => obj.toString());
       Map<String, dynamic> m2 = jsonDecode(json);
-      JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+      JsonEncoder encoder = JsonEncoder.withIndent(' ' * indent);
       String s = encoder.convert(m2);
       return s;
     } catch (e) {
