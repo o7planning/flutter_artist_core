@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 ///
+/// Docs: [14883]
 ///
-interface class ILocaleAdapter {
+interface class FlutterArtistLocaleAdapter {
   List<Locale> supportedLocales() {
     throw UnimplementedError();
   }

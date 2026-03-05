@@ -11,7 +11,8 @@ class LogSummary {
 
   int get totalLogCount => totalErrorCount + totalWarningCount;
 
-  bool get hasRecentLogEntries => recentErrorCount != 0 || recentWarningCount!= 0;
+  bool get hasRecentLogEntries =>
+      recentErrorCount != 0 || recentWarningCount != 0;
 
   LogSummary({
     required this.recentErrorCount,

@@ -1,0 +1,15 @@
+import 'package:flutter_artist_core/flutter_artist_core.dart';
+
+interface class FlutterArtistGlobalDataAdapter<G extends IGlobalData> {
+  Future<G> loadGlobalData({required ILoggedInUser loggedInUser}) async {
+    throw UnimplementedError();
+  }
+
+  String toJson(G globalData) {
+    throw UnimplementedError();
+  }
+
+  G? fromJson(String json) {
+    throw UnimplementedError();
+  }
+}

@@ -4,11 +4,17 @@ import 'dart:math';
 import 'package:flutter_artist_core/src/_enum/_log_entry_type.dart';
 
 export 'src/_adapter/_core_features_adapter.dart';
+export 'src/_adapter/_global_data_adapter.dart';
 export 'src/_adapter/_locale_adapter.dart';
 export 'src/_adapter/_login_logout_adapter.dart';
+export 'src/_adapter/_notification_adapter.dart';
 export 'src/_enum/_log_entry_type.dart';
 export 'src/_enum/_sort_rule_side.dart';
 export 'src/_exception/_feature_unsupported_exception.dart';
+export 'src/_global/_global_data.dart';
+export 'src/_notification/_notification.dart';
+export 'src/_notification/_notification_listener.dart';
+export 'src/_notification/_notification_summary.dart';
 
 part 'src/_deprecated/_log_error_info.dart';
 part 'src/_deprecated/_read_token_from_headers.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Docs: [14863].
-abstract interface class ICoreFeaturesAdapter {
+abstract interface class FlutterArtistCoreFeaturesAdapter {
   BuildContext getCurrentContext();
 
   Future<dynamic> showOverlay({

@@ -1,6 +1,6 @@
 import 'package:flutter_artist_core/flutter_artist_core.dart';
 
-interface class ILoginLogoutAdapter {
+interface class FlutterArtistLoginLogoutAdapter {
   String toJson(ILoggedInUser loggedInUser) {
     throw UnimplementedError();
   }
