@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 
 // Docs: [14863].
 abstract interface class FlutterArtistCoreFeaturesAdapter {
-  BuildContext getCurrentContext();
+  BuildContext get context;
 
-  Future<dynamic> showOverlay({
+  Future<dynamic> runWithOverlay({
     double opacity = 0,
     required Future<dynamic> Function() asyncFunction,
   });
 
-  bool isOverlaysOpen();
+  bool get isOverlayOpen;
 
   void closeAllDialogs();
 
-  void showMessageSnackBar({
+  void showInfoSnackBar({
     required String message,
     required List<String>? details,
   });
