@@ -1,6 +1,7 @@
 part of '../../flutter_artist_core.dart';
 
 ///
+/// Template 1:
 /// ```json
 /// {
 ///   "code": "INVALID_INPUT",
@@ -18,7 +19,8 @@ part of '../../flutter_artist_core.dart';
 /// }
 /// ```
 ///
-/// OR:
+/// Template 2:
+///
 /// ```json
 /// {
 ///   "code": "INVALID_INPUT",
@@ -27,6 +29,41 @@ part of '../../flutter_artist_core.dart';
 ///      "Email address is not in a valid format.",,
 ///      "Password must be at least 8 characters long."
 ///   ]
+/// }
+/// ```
+/// Template 3:
+///
+/// ```json
+/// {
+///   "errors": {
+///     "global": ["Hệ thống đang bảo trì", "Vui lòng thử lại sau"],
+///     "auth": ["Token hết hạn"]
+///   }
+/// }
+/// ```
+///
+/// Template 4:
+///
+/// ```
+/// {
+///  "error": {
+///     "innerError": {
+///       "code": "5001",
+///       "message": "Database connection failed",
+///       "stackTrace": "..."
+///     }
+///   }
+/// }
+/// ```
+///
+/// Template 5:
+///
+/// ```
+/// {
+///   "errors": {
+///     "username": ["Tên đăng nhập đã tồn tại", "Không được chứa ký tự đặc biệt"],
+///     "password": ["Mật khẩu quá ngắn"]
+///   }
 /// }
 /// ```
 ///
@@ -40,45 +77,4 @@ abstract class ErrorInfoExtractor {
   String? extractErrorMessage({required Map<String, dynamic> errorJson});
 
   List<String>? extractErrorDetails({required Map<String, dynamic> errorJson});
-}
-
-class SimpleErrorInfoExtractor extends ErrorInfoExtractor {
-  final List<String> errorMessageProperties;
-  final List<String> errorDetailsProperties;
-
-  const SimpleErrorInfoExtractor({
-    this.errorMessageProperties = const ["errorMessage", "message", "error"],
-    this.errorDetailsProperties = const ["errorDetails", "details", "detail"],
-  });
-
-  @override
-  String? extractErrorMessage({required Map<String, dynamic> errorJson}) {
-    for (String propName in errorMessageProperties) {
-      dynamic value = errorJson[propName];
-      if (value is String) {
-        return value;
-      }
-    }
-    return null;
-  }
-
-  @override
-  List<String>? extractErrorDetails({required Map<String, dynamic> errorJson}) {
-    for (String propName in errorDetailsProperties) {
-      dynamic value = errorJson[propName];
-      if (value is List) {
-        try {
-          List<String> errorDetails = value.cast<String>();
-          return errorDetails;
-        } catch (e) {}
-      }
-    }
-    for (String propName in errorDetailsProperties) {
-      dynamic value = errorJson[propName];
-      if (value is String) {
-        return [value];
-      }
-    }
-    return null;
-  }
 }

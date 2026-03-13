@@ -24,6 +24,7 @@ part 'src/_error/_api_error_type.dart';
 part 'src/_error/_app_error.dart';
 part 'src/_error/_error_info.dart';
 part 'src/_error/_error_info_extractor.dart';
+part 'src/_error/_flexiable_error_info_extractor.dart';
 part 'src/_log/_log_entry.dart';
 part 'src/_log/_log_summary.dart';
 part 'src/_part/_api_result.dart';
