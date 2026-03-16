@@ -1,7 +1,7 @@
 import 'package:flutter_artist_core/flutter_artist_core.dart';
 
 interface class FlutterArtistGlobalDataAdapter<G extends IGlobalData> {
-  Future<G> loadGlobalData({required ILoggedInUser loggedInUser}) async {
+  Future<G> performLoadGlobalData({required ILoggedInUser loggedInUser}) async {
     throw UnimplementedError();
   }
 
