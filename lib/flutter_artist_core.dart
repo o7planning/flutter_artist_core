@@ -13,9 +13,11 @@ export 'src/_enum/_log_entry_type.dart';
 export 'src/_enum/_sort_rule_side.dart';
 export 'src/_exception/_feature_unsupported_exception.dart';
 export 'src/_global/_global_data.dart';
-export 'src/_notification/_notification.dart';
-export 'src/_notification/_notification_listener.dart';
-export 'src/_notification/_notification_summary.dart';
+export 'src/_notification/_notification_service.dart';
+export 'src/_notification/simple/_notification.dart';
+export 'src/_notification/simple/_notification_listener.dart';
+export 'src/_notification/simple/_notification_summary.dart';
+export 'src/_utils/_fa_color_utils.dart';
 
 part 'src/_core.dart';
 part 'src/_deprecated/_log_error_info.dart';
