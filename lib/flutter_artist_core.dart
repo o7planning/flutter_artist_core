@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_artist_core/src/_enum/_log_entry_type.dart';
-
+export 'src/_adapter/_sse_notification_adapter.dart';
 export 'src/_adapter/_core_features_adapter.dart';
 export 'src/_adapter/_global_data_adapter.dart';
 export 'src/_adapter/_locale_adapter.dart';

@@ -13,21 +13,77 @@ typedef FaColorResolver = Color Function(BuildContext context);
 /// - primaryContent: Main values, core text content.
 /// - sourceCode: Technical identifiers like class names or variable names.
 /// - technicalHighlight: Generic technical indicators usually wrapped in brackets.
+/// FaColorUtils - Semantic Color System for FlutterArtist
+///
+/// IMPORTANT: LIFECYCLE MANAGEMENT
+/// Most methods in this class rely on [Theme.of(context)], which depends on
+/// InheritedWidgets.
+///
+/// ⚠️ COMMON ERROR:
+/// Calling these methods inside [initState()] will throw an exception:
+/// "dependOnInheritedWidgetOfExactType<_InheritedTheme>() called before initState() completed."
+///
+/// WHY THIS HAPPENS:
+/// In Flutter, [initState()] is called before the widget is fully attached to
+/// the element tree. At this stage, the [context] is not ready to look up
+/// inherited widgets like [Theme].
+///
+/// ✅ THE SOLUTION:
+/// 1. Use [didChangeDependencies()]: This method is called immediately after
+///    [initState()] and whenever the theme changes. It is the safest place
+///    to initialize controllers or variables that depend on colors.
+/// 2. Use [build()]: Access colors directly during the build phase.
+///
+/// Example of correct usage:
+/// ```
+/// @override
+/// void didChangeDependencies() {
+///   super.didChangeDependencies();
+///   if (!_initialized) {
+///     _controller = TabbedViewController(_buildTabs()); // Safe to call FaColorUtils here
+///     _initialized = true;
+///   }
+/// }
+/// ```
 class FaColorUtils {
   // ===========================================================================
   // RESOLVERS: Dynamic Overriding Mechanism
   // Allows users to reassign these functions to customize the theme behavior.
   // ===========================================================================
 
+  /// Resolver cho màu nền chính của các màn hình hoặc container lớn (Scaffold background).
+  static FaColorResolver backgroundResolver =
+      (context) => Theme.of(context).colorScheme.surface;
+
+  /// Resolver cho các thành phần UI mang tính chất bổ trợ cao (như nút mũi tên, thanh trượt).
+  static FaColorResolver surfaceContainerHighestResolver =
+      (context) => Theme.of(context).colorScheme.surfaceContainerHighest;
+
+  /// Resolver cho trạng thái cảnh báo (Warning)
+  /// Sử dụng tertiary hoặc custom logic thích ứng với Brightness
+  static FaColorResolver alertWarningResolver = (context) {
+    // Ưu tiên lấy màu tertiary của hệ thống,
+    // hoặc tự định nghĩa màu dựa trên Brightness nếu muốn kiểm soát tuyệt đối
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return isDark ? const Color(0xFFFFB74D) : const Color(0xFFF57C00);
+  };
+
+  /// Resolver cho trạng thái thành công (Success)
+  static FaColorResolver alertSuccessResolver = (context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return isDark ? const Color(0xFF81C784) : const Color(0xFF388E3C);
+  };
+
+
   /// Resolver for static metadata labels (e.g., "ID:", "Name:").
   static FaColorResolver infoLabelResolver =
-      (context) =>
-          Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.55);
+      (context) => Theme.of(context).colorScheme.onSurfaceVariant;
 
   /// Resolver for descriptive text values.
+
   static FaColorResolver infoTextResolver =
       (context) =>
-          Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5);
+          Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.8);
 
   /// Resolver for main content text and primary values.
   static FaColorResolver primaryContentResolver =
@@ -51,19 +107,15 @@ class FaColorUtils {
 
   /// Resolver for glass-morphic or background containers.
   static FaColorResolver surfaceContainerResolver =
-      (context) => Theme.of(
-        context,
-      ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3);
+      (context) => Theme.of(context).colorScheme.surfaceContainer;
 
   /// Resolver for data labels specifically in Detail Views.
   static FaColorResolver dataLabelResolver =
-      (context) =>
-          Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.65);
+      (context) => Theme.of(context).colorScheme.onSurfaceVariant;
 
   /// Resolver for data values specifically in Detail Views.
   static FaColorResolver dataValueResolver =
-      (context) =>
-          Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.9);
+      (context) => Theme.of(context).colorScheme.onSurface;
 
   /// Resolver for section or panel headers.
   static FaColorResolver sectionHeaderResolver =
@@ -103,6 +155,19 @@ class FaColorUtils {
   // SEMANTIC ACCESSORS: Suggestive Method Names
   // These methods are used throughout the UI to fetch the correct color.
   // ===========================================================================
+
+  /// Màu nền cơ bản của ứng dụng (Thường dùng cho Scaffold hoặc Container chính).
+  static Color background(BuildContext context) => backgroundResolver(context);
+
+  /// Màu nền cho các thành phần có độ ưu tiên hiển thị cao trên bề mặt (như nút đóng/mở panel).
+  static Color surfaceContainerHighest(BuildContext context) =>
+      surfaceContainerHighestResolver(context);
+
+  /// Sử dụng cho các trạng thái cần lưu ý, icon "New", hoặc cảnh báo nhẹ.
+  static Color alertWarning(BuildContext context) => alertWarningResolver(context);
+
+  /// Sử dụng cho các trạng thái hoàn thành, "Done", hoặc xác nhận thành công.
+  static Color alertSuccess(BuildContext context) => alertSuccessResolver(context);
 
   /// Used for static descriptive labels or hint text.
   /// Example: "Field Name:", "Data Type:".

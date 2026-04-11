@@ -1,13 +1,17 @@
 import 'package:flutter_artist_core/flutter_artist_core.dart';
 
-interface class FlutterArtistLoginLogoutAdapter {
+interface class FlutterArtistLoginLogoutAdapter<USER extends ILoggedInUser> {
+  Future<USER> performReloadLoggedInUser({required USER loggedInUser}) async {
+    throw UnimplementedError();
+  }
+
   /// Convert the user object to a JSON string for local storage.
-  String toJson(ILoggedInUser loggedInUser) {
+  String toJson(USER loggedInUser) {
     throw UnimplementedError();
   }
 
   /// Restore the user object from a JSON string upon application restart.
-  ILoggedInUser? fromJson(String json) {
+  USER? fromJson(String json) {
     throw UnimplementedError();
   }
 
@@ -19,7 +23,7 @@ interface class FlutterArtistLoginLogoutAdapter {
   /// fresh.setToken(token);
   /// ```
   ///
-  void addThirdPartyLogicOnLogin(ILoggedInUser loggedInUser) {
+  void addThirdPartyLogicOnLogin(USER loggedInUser) {
     throw UnimplementedError();
   }
 
