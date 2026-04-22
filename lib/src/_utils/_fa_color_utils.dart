@@ -74,6 +74,14 @@ class FaColorUtils {
     return isDark ? const Color(0xFF81C784) : const Color(0xFF388E3C);
   };
 
+  /// Resolver cho màu nền container thấp (Low) - Thường dùng cho nền chìm hơn surface chính.
+  static FaColorResolver surfaceContainerLowResolver =
+      (context) => Theme.of(context).colorScheme.surfaceContainerLow;
+
+  /// Resolver cho các thành phần UI mang tính chất bổ trợ cao.
+  static FaColorResolver surfaceContainerHighResolver =
+      (context) => Theme.of(context).colorScheme.surfaceContainerHigh;
+
 
   /// Resolver for static metadata labels (e.g., "ID:", "Name:").
   static FaColorResolver infoLabelResolver =
@@ -158,6 +166,16 @@ class FaColorUtils {
 
   /// Màu nền cơ bản của ứng dụng (Thường dùng cho Scaffold hoặc Container chính).
   static Color background(BuildContext context) => backgroundResolver(context);
+
+
+  /// Màu nền container mức thấp - Thường dùng cho các vùng diện tích lớn nhưng cần tách biệt nhẹ với nền surface.
+  static Color surfaceContainerLow(BuildContext context) =>
+      surfaceContainerLowResolver(context);
+
+
+  /// Màu nền container mức cao - Phù hợp cho các dòng timeline phụ hoặc ô thông tin cần nhấn mạnh nhẹ.
+  static Color surfaceContainerHigh(BuildContext context) =>
+      surfaceContainerHighResolver(context);
 
   /// Màu nền cho các thành phần có độ ưu tiên hiển thị cao trên bề mặt (như nút đóng/mở panel).
   static Color surfaceContainerHighest(BuildContext context) =>
