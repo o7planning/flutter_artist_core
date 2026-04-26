@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-/// Function signature for color calculation based on context.
-typedef FaColorResolver = Color Function(BuildContext context);
+import 'package:flutter_artist_core/src/_utils/_fa_color_resolvers.dart';
 
 /// FaColorUtils provides a semantic color system for the FlutterArtist library.
 ///
@@ -45,221 +43,211 @@ typedef FaColorResolver = Color Function(BuildContext context);
 ///   }
 /// }
 /// ```
+/// Docs: [14893].
 class FaColorUtils {
   // ===========================================================================
-  // RESOLVERS: Dynamic Overriding Mechanism
-  // Allows users to reassign these functions to customize the theme behavior.
+  // BACKGROUND & SURFACE
   // ===========================================================================
 
-  /// Resolver cho màu nền chính của các màn hình hoặc container lớn (Scaffold background).
-  static FaColorResolver backgroundResolver =
-      (context) => Theme.of(context).colorScheme.surface;
+  /// Base background color for major screens (e.g., Scaffold).
+  static Color background(BuildContext context) =>
+      FaColorResolvers.backgroundResolver(context);
 
-  /// Resolver cho các thành phần UI mang tính chất bổ trợ cao (như nút mũi tên, thanh trượt).
-  static FaColorResolver surfaceContainerHighestResolver =
-      (context) => Theme.of(context).colorScheme.surfaceContainerHighest;
-
-  /// Resolver cho trạng thái cảnh báo (Warning)
-  /// Sử dụng tertiary hoặc custom logic thích ứng với Brightness
-  static FaColorResolver alertWarningResolver = (context) {
-    // Ưu tiên lấy màu tertiary của hệ thống,
-    // hoặc tự định nghĩa màu dựa trên Brightness nếu muốn kiểm soát tuyệt đối
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return isDark ? const Color(0xFFFFB74D) : const Color(0xFFF57C00);
-  };
-
-  /// Resolver cho trạng thái thành công (Success)
-  static FaColorResolver alertSuccessResolver = (context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return isDark ? const Color(0xFF81C784) : const Color(0xFF388E3C);
-  };
-
-  /// Resolver cho màu nền container thấp (Low) - Thường dùng cho nền chìm hơn surface chính.
-  static FaColorResolver surfaceContainerLowResolver =
-      (context) => Theme.of(context).colorScheme.surfaceContainerLow;
-
-  /// Resolver cho các thành phần UI mang tính chất bổ trợ cao.
-  static FaColorResolver surfaceContainerHighResolver =
-      (context) => Theme.of(context).colorScheme.surfaceContainerHigh;
-
-
-  /// Resolver for static metadata labels (e.g., "ID:", "Name:").
-  static FaColorResolver infoLabelResolver =
-      (context) => Theme.of(context).colorScheme.onSurfaceVariant;
-
-  /// Resolver for descriptive text values.
-
-  static FaColorResolver infoTextResolver =
-      (context) =>
-          Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.8);
-
-  /// Resolver for main content text and primary values.
-  static FaColorResolver primaryContentResolver =
-      (context) => Theme.of(context).colorScheme.onSurface;
-
-  /// Resolver for highlighted technical metadata (e.g., <String>, [Required]).
-  static FaColorResolver technicalHighlightResolver =
-      (context) => Theme.of(context).colorScheme.tertiary;
-
-  /// Resolver for code-level identifiers (e.g., API paths, variable names).
-  static FaColorResolver sourceCodeResolver =
-      (context) => Theme.of(context).colorScheme.secondary;
-
-  /// Resolver for brand or primary action highlights.
-  static FaColorResolver primaryHighlightResolver =
-      (context) => Theme.of(context).colorScheme.primary;
-
-  /// Resolver for error messages or critical alerts.
-  static FaColorResolver alertErrorResolver =
-      (context) => Theme.of(context).colorScheme.error;
-
-  /// Resolver for glass-morphic or background containers.
-  static FaColorResolver surfaceContainerResolver =
-      (context) => Theme.of(context).colorScheme.surfaceContainer;
-
-  /// Resolver for data labels specifically in Detail Views.
-  static FaColorResolver dataLabelResolver =
-      (context) => Theme.of(context).colorScheme.onSurfaceVariant;
-
-  /// Resolver for data values specifically in Detail Views.
-  static FaColorResolver dataValueResolver =
-      (context) => Theme.of(context).colorScheme.onSurface;
-
-  /// Resolver for section or panel headers.
-  static FaColorResolver sectionHeaderResolver =
-      (context) =>
-          Theme.of(context).colorScheme.secondary.withValues(alpha: 0.9);
-
-  /// Resolver for row background when selected in Lists or Tables.
-  static FaColorResolver selectedRowBackgroundResolver =
-      (context) =>
-          Theme.of(context).colorScheme.primary.withValues(alpha: 0.15);
-
-  /// Resolver for text color on selected rows to ensure legibility.
-  static FaColorResolver selectedRowTextResolver =
-      (context) => Theme.of(context).colorScheme.primary;
-
-  /// Resolver for horizontal/vertical dividers.
-  static FaColorResolver dividerColorResolver =
-      (context) => Theme.of(context).dividerColor;
-
-  /// Resolver for date and time values.
-  static FaColorResolver dateValueResolver =
-      (context) => Theme.of(context).colorScheme.primary.withValues(alpha: 0.8);
-
-  /// Resolver for icons like sort arrows or status indicators.
-  static FaColorResolver indicatorColorResolver =
-      (context) => Theme.of(context).colorScheme.primary.withValues(alpha: 0.7);
-
-  /// Resolver for background of highly emphasized notifications/highlights.
-  static FaColorResolver highlightBackgroundResolver =
-      (context) => Theme.of(context).colorScheme.primary;
-
-  /// Resolver for text color appearing on top of highlight backgrounds.
-  static FaColorResolver onHighlightTextResolver =
-      (context) => Theme.of(context).colorScheme.onPrimary;
-
-  // ===========================================================================
-  // SEMANTIC ACCESSORS: Suggestive Method Names
-  // These methods are used throughout the UI to fetch the correct color.
-  // ===========================================================================
-
-  /// Màu nền cơ bản của ứng dụng (Thường dùng cho Scaffold hoặc Container chính).
-  static Color background(BuildContext context) => backgroundResolver(context);
-
-
-  /// Màu nền container mức thấp - Thường dùng cho các vùng diện tích lớn nhưng cần tách biệt nhẹ với nền surface.
+  /// Low-emphasis surface container.
   static Color surfaceContainerLow(BuildContext context) =>
-      surfaceContainerLowResolver(context);
+      FaColorResolvers.surfaceContainerLowResolver(context);
 
-
-  /// Màu nền container mức cao - Phù hợp cho các dòng timeline phụ hoặc ô thông tin cần nhấn mạnh nhẹ.
+  /// Medium-emphasis surface container.
   static Color surfaceContainerHigh(BuildContext context) =>
-      surfaceContainerHighResolver(context);
+      FaColorResolvers.surfaceContainerHighResolver(context);
 
-  /// Màu nền cho các thành phần có độ ưu tiên hiển thị cao trên bề mặt (như nút đóng/mở panel).
+  /// High-emphasis surface container.
   static Color surfaceContainerHighest(BuildContext context) =>
-      surfaceContainerHighestResolver(context);
+      FaColorResolvers.surfaceContainerHighestResolver(context);
 
-  /// Sử dụng cho các trạng thái cần lưu ý, icon "New", hoặc cảnh báo nhẹ.
-  static Color alertWarning(BuildContext context) => alertWarningResolver(context);
-
-  /// Sử dụng cho các trạng thái hoàn thành, "Done", hoặc xác nhận thành công.
-  static Color alertSuccess(BuildContext context) => alertSuccessResolver(context);
-
-  /// Used for static descriptive labels or hint text.
-  /// Example: "Field Name:", "Data Type:".
-  static Color infoLabel(BuildContext context) => infoLabelResolver(context);
-
-  /// Used for descriptive text, notes, or long-form descriptions.
-  static Color infoText(BuildContext context) => infoTextResolver(context);
-
-  /// Used for primary text content and core data values.
-  /// Example: "user_101", "Transaction Successful".
-  static Color primaryContent(BuildContext context) =>
-      primaryContentResolver(context);
-
-  /// Used for technical metadata that needs to stand out.
-  /// Example: "<String>", "<T>", "[system_generated]".
-  static Color technicalHighlight(BuildContext context) =>
-      technicalHighlightResolver(context);
-
-  /// Used for source code level identifiers or technical paths.
-  /// Example: API endpoints, class names, or variable identifiers.
-  static Color sourceCode(BuildContext context) => sourceCodeResolver(context);
-
-  /// Used for primary highlights, branding accents, or call-to-action colors.
-  static Color primaryHighlight(BuildContext context) =>
-      primaryHighlightResolver(context);
-
-  /// Used for error states, validation failures, or critical system alerts.
-  static Color alertError(BuildContext context) => alertErrorResolver(context);
-
-  /// Background color for nested containers or blurred surface overlays.
-  /// Provides a subtle separation between the content and the background.
+  /// Default container surface (nested or overlay UI).
   static Color surfaceContainer(BuildContext context) =>
-      surfaceContainerResolver(context);
+      FaColorResolvers.surfaceContainerResolver(context);
 
-  /// Specific label color for data points in Detail or Summary views.
-  /// Helps distinguish property names (e.g., "Code:") from their values.
-  static Color dataLabel(BuildContext context) => dataLabelResolver(context);
+  // ===========================================================================
+  // CONTENT & TEXT
+  // ===========================================================================
 
-  /// Specific value color for data points in Detail or Summary views.
-  /// Optimized for high readability of business data (e.g., "USD", "Apple Inc.").
-  static Color dataValue(BuildContext context) => dataValueResolver(context);
+  /// Primary content color for main text and key data.
+  static Color primaryContent(BuildContext context) =>
+      FaColorResolvers.primaryContentResolver(context);
 
-  /// Color for headers of sections, panels, or sidebars.
-  /// Usually based on the secondary color for visual hierarchy.
-  static Color sectionHeader(BuildContext context) =>
-      sectionHeaderResolver(context);
+  /// Secondary label text (e.g., field names).
+  static Color infoLabel(BuildContext context) =>
+      FaColorResolvers.infoLabelResolver(context);
 
-  /// Background color for the currently selected row in a List or Table.
-  /// Designed to be soft (low opacity) to avoid visual fatigue.
+  /// Descriptive or long-form text.
+  static Color infoText(BuildContext context) =>
+      FaColorResolvers.infoTextResolver(context);
+
+  /// Muted text with reduced emphasis.
+  static Color mutedText(BuildContext context) =>
+      FaColorResolvers.mutedTextResolver(context);
+
+  /// Placeholder text for input fields.
+  static Color placeholderText(BuildContext context) =>
+      FaColorResolvers.placeholderTextResolver(context);
+
+  /// Caption or secondary text.
+  static Color captionText(BuildContext context) =>
+      FaColorResolvers.captionTextResolver(context);
+
+  // ===========================================================================
+  // DATA & TECHNICAL
+  // ===========================================================================
+
+  /// Label for structured data (e.g., "Code:", "Type:").
+  static Color dataLabel(BuildContext context) =>
+      FaColorResolvers.dataLabelResolver(context);
+
+  /// Value for structured data.
+  static Color dataValue(BuildContext context) =>
+      FaColorResolvers.dataValueResolver(context);
+
+  /// Highlight for technical metadata.
+  static Color technicalHighlight(BuildContext context) =>
+      FaColorResolvers.technicalHighlightResolver(context);
+
+  /// Color for source code identifiers.
+  static Color sourceCode(BuildContext context) =>
+      FaColorResolvers.sourceCodeResolver(context);
+
+  // ===========================================================================
+  // BRAND & HIGHLIGHT
+  // ===========================================================================
+
+  // TODO: Rename in Docs.
+  // OLD: primaryHighlight -->  primaryAction
+  /// Primary brand or action highlight.
+  static Color primaryAction(BuildContext context) =>
+      FaColorResolvers.primaryHighlightResolver(context);
+
+  // TODO: Rename in Docs.
+  // OLD: highlightBackground --> highlight
+  /// Background for emphasized highlights.
+  static Color highlight(BuildContext context) =>
+      FaColorResolvers.highlightBackgroundResolver(context);
+
+  // TODO: Rename in Docs.
+  // OLD: onHighlightText --> onHighlight
+  /// Text color on highlight backgrounds.
+  static Color onHighlight(BuildContext context) =>
+      FaColorResolvers.onHighlightTextResolver(context);
+
+  // ===========================================================================
+  // STATUS & ALERTS
+  // ===========================================================================
+
+  /// Error or critical alert color.
+  static Color alertError(BuildContext context) =>
+      FaColorResolvers.alertErrorResolver(context);
+
+  /// Warning state color.
+  static Color alertWarning(BuildContext context) =>
+      FaColorResolvers.alertWarningResolver(context);
+
+  /// Success state color.
+  static Color alertSuccess(BuildContext context) =>
+      FaColorResolvers.alertSuccessResolver(context);
+
+  /// Informational state color.
+  static Color alertInfo(BuildContext context) =>
+      FaColorResolvers.alertInfoResolver(context);
+
+  /// Neutral state color.
+  static Color alertNeutral(BuildContext context) =>
+      FaColorResolvers.alertNeutralResolver(context);
+
+  // ===========================================================================
+  // INTERACTION STATES
+  // ===========================================================================
+
+  /// Hover state overlay for interactive elements.
+  static Color interactiveHover(BuildContext context) =>
+      FaColorResolvers.interactiveHoverResolver(context);
+
+  /// Pressed state overlay.
+  static Color interactivePressed(BuildContext context) =>
+      FaColorResolvers.interactivePressedResolver(context);
+
+  /// Focus ring or outline color.
+  static Color focusRing(BuildContext context) =>
+      FaColorResolvers.focusRingResolver(context);
+
+  /// Disabled content (text/icon).
+  static Color disabledContent(BuildContext context) =>
+      FaColorResolvers.disabledContentResolver(context);
+
+  /// Disabled background.
+  static Color disabledBackground(BuildContext context) =>
+      FaColorResolvers.disabledBackgroundResolver(context);
+
+  // ===========================================================================
+  // SELECTION & FEEDBACK
+  // ===========================================================================
+
+  /// Background color for selected items (e.g., table rows).
   static Color selectedRowBackground(BuildContext context) =>
-      selectedRowBackgroundResolver(context);
+      FaColorResolvers.selectedRowBackgroundResolver(context);
 
-  /// Text color for the selected row, ensuring high contrast against the selected background.
+  /// Text color for selected items.
   static Color selectedRowText(BuildContext context) =>
-      selectedRowTextResolver(context);
+      FaColorResolvers.selectedRowTextResolver(context);
 
-  /// Color for dividers and separators between UI elements.
+  // ===========================================================================
+  // STRUCTURE & DIVIDER
+  // ===========================================================================
+
+  /// Divider and separator color.
   static Color dividerColor(BuildContext context) =>
-      dividerColorResolver(context);
+      FaColorResolvers.dividerColorResolver(context);
 
-  /// Specialized color for DateTime or Timestamp values.
-  /// Helps visually group time-related data.
-  static Color dateValue(BuildContext context) => dateValueResolver(context);
+  /// Subtle border color.
+  static Color borderSubtle(BuildContext context) =>
+      FaColorResolvers.borderSubtleResolver(context);
 
-  /// Color for UI indicators like sort arrows, scroll indicators, or status pips.
+  /// Default border color.
+  static Color borderDefault(BuildContext context) =>
+      FaColorResolvers.borderDefaultResolver(context);
+
+  /// Strong border color.
+  static Color borderStrong(BuildContext context) =>
+      FaColorResolvers.borderStrongResolver(context);
+
+  // ===========================================================================
+  // NAVIGATION
+  // ===========================================================================
+
+  /// Default navigation item color.
+  static Color navItem(BuildContext context) =>
+      FaColorResolvers.navItemResolver(context);
+
+  /// Active navigation item color.
+  static Color navItemActive(BuildContext context) =>
+      FaColorResolvers.navItemActiveResolver(context);
+
+  /// Hover state for navigation items.
+  static Color navItemHover(BuildContext context) =>
+      FaColorResolvers.navItemHoverResolver(context);
+
+  // ===========================================================================
+  // SPECIALIZED
+  // ===========================================================================
+
+  /// Section or panel header color.
+  static Color sectionHeader(BuildContext context) =>
+      FaColorResolvers.sectionHeaderResolver(context);
+
+  /// Date/time value color.
+  static Color dateValue(BuildContext context) =>
+      FaColorResolvers.dateValueResolver(context);
+
+  /// UI indicator color (icons, arrows, etc.).
   static Color indicatorColor(BuildContext context) =>
-      indicatorColorResolver(context);
-
-  /// Solid background color for important highlights or emphasized banners.
-  static Color highlightBackground(BuildContext context) =>
-      highlightBackgroundResolver(context);
-
-  /// Contrast color for text placed on top of [highlightBackground].
-  /// Usually white or black depending on the theme brightness.
-  static Color onHighlightText(BuildContext context) =>
-      onHighlightTextResolver(context);
+      FaColorResolvers.indicatorColorResolver(context);
 }

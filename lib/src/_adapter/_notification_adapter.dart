@@ -3,7 +3,7 @@ import 'package:flutter_artist_core/flutter_artist_core.dart';
 /// The Ancestor Interface
 abstract class FlutterArtistNotificationAdapter {
   Future<void> connect();
-  
+
   String toJson(INotificationSummary summary);
 
   INotificationSummary? fromJson(String json);
@@ -12,12 +12,11 @@ abstract class FlutterArtistNotificationAdapter {
 }
 
 abstract class SimpleNotificationAdapter
-    extends FlutterArtistNotificationAdapter { 
-
+    extends FlutterArtistNotificationAdapter {
   @override
   Future<void> connect() async {
-   // Do nothing.
-  } 
+    // Do nothing.
+  }
 
   /// Actively pulls the latest notification summary (counts, icons) from the server.
   Future<ApiResult<INotificationSummary>> performLoadSummary();
@@ -28,13 +27,10 @@ abstract class SimpleNotificationAdapter
 
 abstract class FirebaseNotificationAdapter
     extends FlutterArtistNotificationAdapter {
-
-
   @override
   Future<void> connect() async {
     // Do nothing.
   }
-
 
   /// Stream that emits a new notification when the app is in the foreground.
   Stream<INotification> get onNotificationReceived;
@@ -54,13 +50,10 @@ abstract class FirebaseNotificationAdapter
 
 abstract class SocketNotificationAdapter
     extends FlutterArtistNotificationAdapter {
-
-
   @override
   Future<void> connect() async {
     // Do nothing.
   }
-
 
   /// Gracefully closes the persistent connection.
   Future<void> disconnect();
@@ -77,13 +70,10 @@ abstract class SocketNotificationAdapter
 
 abstract class LocalNotificationAdapter
     extends FlutterArtistNotificationAdapter {
-
-
   @override
   Future<void> connect() async {
     // Do nothing.
   }
-
 
   /// Immediately triggers a system notification on the device.
   Future<void> showImmediately({

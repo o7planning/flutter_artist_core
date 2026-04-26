@@ -3,12 +3,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_artist_core/src/_enum/_log_entry_type.dart';
-export 'src/_adapter/_sse_notification_adapter.dart';
+
 export 'src/_adapter/_core_features_adapter.dart';
 export 'src/_adapter/_global_data_adapter.dart';
 export 'src/_adapter/_locale_adapter.dart';
 export 'src/_adapter/_login_logout_adapter.dart';
 export 'src/_adapter/_notification_adapter.dart';
+export 'src/_adapter/_sse_notification_adapter.dart';
 export 'src/_enum/_log_entry_type.dart';
 export 'src/_enum/_sort_rule_side.dart';
 export 'src/_exception/_feature_unsupported_exception.dart';
@@ -17,6 +18,7 @@ export 'src/_notification/_notification_service.dart';
 export 'src/_notification/simple/_notification.dart';
 export 'src/_notification/simple/_notification_listener.dart';
 export 'src/_notification/simple/_notification_summary.dart';
+export 'src/_utils/_fa_color_resolvers.dart';
 export 'src/_utils/_fa_color_utils.dart';
 
 part 'src/_core.dart';
