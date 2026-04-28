@@ -131,13 +131,13 @@ class FaColorUtils {
   // OLD: highlightBackground --> highlight
   /// Background for emphasized highlights.
   static Color highlight(BuildContext context) =>
-      FaColorResolvers.highlightBackgroundResolver(context);
+      FaColorResolvers.highlightResolver(context);
 
   // TODO: Rename in Docs.
   // OLD: onHighlightText --> onHighlight
   /// Text color on highlight backgrounds.
   static Color onHighlight(BuildContext context) =>
-      FaColorResolvers.onHighlightTextResolver(context);
+      FaColorResolvers.onHighlightResolver(context);
 
   // ===========================================================================
   // STATUS & ALERTS

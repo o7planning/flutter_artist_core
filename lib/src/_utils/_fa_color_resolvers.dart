@@ -93,11 +93,11 @@ class FaColorResolvers {
       (context) => Theme.of(context).colorScheme.primary;
 
   /// Strong background highlight (e.g., banners, important notices).
-  static FaColorResolver highlightBackgroundResolver =
+  static FaColorResolver highlightResolver =
       (context) => Theme.of(context).colorScheme.primary;
 
   /// Text color displayed on top of highlight backgrounds.
-  static FaColorResolver onHighlightTextResolver =
+  static FaColorResolver onHighlightResolver =
       (context) => Theme.of(context).colorScheme.onPrimary;
 
   // ===========================================================================
