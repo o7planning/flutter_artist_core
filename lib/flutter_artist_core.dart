@@ -22,9 +22,6 @@ export 'src/_utils/_fa_color_resolvers.dart';
 export 'src/_utils/_fa_color_utils.dart';
 
 part 'src/_core.dart';
-part 'src/_deprecated/_log_error_info.dart';
-part 'src/_deprecated/_read_token_from_headers.dart';
-part 'src/_deprecated/_write_token_to_headers.dart';
 part 'src/_error/_api_error.dart';
 part 'src/_error/_api_error_type.dart';
 part 'src/_error/_app_error.dart';
