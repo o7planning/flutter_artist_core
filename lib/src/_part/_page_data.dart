@@ -88,28 +88,44 @@ class DefaultPageData<I> extends PageData<I> {
     currentPage = currentPage < 1 ? 1 : currentPage;
     //
     final int totalItems = allItems.length;
+
+    PaginationInfo paginationInfo;
     int totalPages;
-    if (totalItems % pageSize == 0) {
-      totalPages = totalItems ~/ pageSize;
+    List<I> items;
+    if (pageSize <= 0) {
+      totalPages = 1;
+      if (currentPage > 1) {
+        items = [];
+      } else {
+        items = allItems;
+      }
+      paginationInfo = PaginationInfo(
+        currentPage: currentPage,
+        pageSize: pageSize,
+        totalItems: totalItems,
+        totalPages: totalPages,
+      );
     } else {
-      totalPages = totalItems ~/ pageSize + 1;
+      if (totalItems % pageSize == 0) {
+        totalPages = totalItems ~/ pageSize;
+      } else {
+        totalPages = totalItems ~/ pageSize + 1;
+      }
+      paginationInfo = PaginationInfo(
+        currentPage: currentPage,
+        pageSize: pageSize,
+        totalItems: totalItems,
+        totalPages: totalPages,
+      );
+      int start = (currentPage - 1) * pageSize;
+      int end = currentPage * pageSize;
+      if (start > allItems.length - 1) {
+        items = [];
+      } else {
+        items = allItems.sublist(start, min(allItems.length, end));
+      }
     }
     //
-    PaginationInfo paginationInfo = PaginationInfo(
-      currentPage: currentPage,
-      pageSize: pageSize,
-      totalItems: totalItems,
-      totalPages: totalPages,
-    );
-    int start = (currentPage - 1) * pageSize;
-    int end = currentPage * pageSize;
-    List<I> items;
-    if (start > allItems.length - 1) {
-      items = [];
-    } else {
-      items = allItems.sublist(start, min(allItems.length, end));
-    }
-
     return DefaultPageData(paginationInfo: paginationInfo, items: items);
   }
 }
