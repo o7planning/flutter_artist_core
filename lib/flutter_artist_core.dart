@@ -6,10 +6,11 @@ import 'package:flutter_artist_core/src/_enum/_log_entry_type.dart';
 
 export 'src/_adapter/_core_features_adapter.dart';
 export 'src/_adapter/_global_data_adapter.dart';
-export 'src/_adapter/_locale_adapter.dart';
 export 'src/_adapter/_login_logout_adapter.dart';
 export 'src/_adapter/_notification_adapter.dart';
 export 'src/_adapter/_sse_notification_adapter.dart';
+export 'src/_docs/fa_document.dart';
+export 'src/_docs/fa_documents.dart';
 export 'src/_enum/_log_entry_type.dart';
 export 'src/_enum/_sort_rule_side.dart';
 export 'src/_exception/_feature_unsupported_exception.dart';
