@@ -1,6 +1,10 @@
 import 'package:flutter_artist_core/flutter_artist_core.dart';
 
 interface class FlutterArtistLoginLogoutAdapter<USER extends ILoggedInUser> {
+  ///
+  /// If user information was previously stored on a local device and successfully recovered at application startup,
+  /// this method will be automatically invoked to retrieve the latest information from the server.
+  ///
   Future<USER> performReloadLoggedInUser({required USER loggedInUser}) async {
     throw UnimplementedError();
   }
