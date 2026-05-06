@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 import 'fa_document.dart';
 
@@ -48,22 +49,20 @@ class FaDocuments {
     }
   }
 
-  /// NEW: Load documents from a remote URL.
+  /// Load documents from a remote URL.
   /// Useful for dynamic updates without re-building the app.
-  // static Future<FaDocuments> fromUrl({required String url}) async {
-  //   try {
-  //     final response = await http.get(Uri.parse(url));
-  //     if (response.statusCode == 200) {
-  //       return FaDocuments.fromJson(json: response.body);
-  //     } else {
-  //       print(
-  //         'FlutterArtist Error: Remote docs returned status ${response.statusCode}',
-  //       );
-  //       return FaDocuments._(documents: []);
-  //     }
-  //   } catch (e) {
-  //     print('FlutterArtist Error: Failed to fetch remote docs: $e');
-  //     return FaDocuments._(documents: []);
-  //   }
-  // }
+  static Future<FaDocuments> fromUrl({required String url}) async {
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        return FaDocuments.fromJson(json: response.body);
+      } else {
+        print('Error: Remote docs returned status ${response.statusCode}');
+        return FaDocuments._(documents: []);
+      }
+    } catch (e) {
+      print('FlutterArtist Error: Failed to fetch remote docs: $e');
+      return FaDocuments._(documents: []);
+    }
+  }
 }

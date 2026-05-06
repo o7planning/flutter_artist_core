@@ -162,8 +162,7 @@ class FaColorResolvers {
 
   /// Background color for selected rows/items.
   static FaColorResolver selectedRowBackgroundResolver =
-      (context) =>
-          Theme.of(context).colorScheme.primary.withValues(alpha: 0.15);
+      (context) => Theme.of(context).colorScheme.primary.withValues(alpha: 0.4);
 
   /// Text color for selected rows/items.
   static FaColorResolver selectedRowTextResolver =

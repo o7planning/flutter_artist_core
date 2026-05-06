@@ -14,12 +14,17 @@ export 'src/_docs/fa_documents.dart';
 export 'src/_enum/_log_entry_type.dart';
 export 'src/_enum/_sort_rule_side.dart';
 export 'src/_exception/_feature_unsupported_exception.dart';
+export 'src/_fa_docs/dev.dart';
+export 'src/_fa_docs/flutter_artist_doc_system.dart';
 export 'src/_global/_global_data.dart';
 export 'src/_notification/_notification_service.dart';
 export 'src/_notification/simple/_notification.dart';
 export 'src/_notification/simple/_notification_listener.dart';
 export 'src/_notification/simple/_notification_summary.dart';
+export 'src/_utils/_country_utils.dart';
+export 'src/_utils/_fa_color_extension.dart';
 export 'src/_utils/_fa_color_resolvers.dart';
+export 'src/_utils/_fa_color_transform.dart';
 export 'src/_utils/_fa_color_utils.dart';
 
 part 'src/_core.dart';
