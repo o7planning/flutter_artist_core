@@ -4,12 +4,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_artist_core/src/_enum/_log_entry_type.dart';
 
-export 'src/_adapter/_core_features_adapter.dart';
 export 'src/_adapter/_global_data_adapter.dart';
 export 'src/_adapter/_login_logout_adapter.dart';
 export 'src/_adapter/_notification_adapter.dart';
+export 'src/_adapter/_overlay_adapter.dart';
 export 'src/_adapter/_sse_notification_adapter.dart';
-export 'src/_colors/_fa_color_sys.dart';
 export 'src/_docs/fa_document.dart';
 export 'src/_docs/fa_documents.dart';
 export 'src/_enum/_log_entry_type.dart';
@@ -22,11 +21,10 @@ export 'src/_notification/_notification_service.dart';
 export 'src/_notification/simple/_notification.dart';
 export 'src/_notification/simple/_notification_listener.dart';
 export 'src/_notification/simple/_notification_summary.dart';
-// export 'src/_utils/_fa_color_extension.dart';
-// export 'src/_utils/_fa_color_resolvers.dart';
-// export 'src/_utils/_fa_color_transform.dart';
 export 'src/_utils/_color_utils.dart';
 export 'src/_utils/_country_utils.dart';
+export 'src/_utils/_fa_url_text_cache.dart';
+export 'src/_utils/_fa_color_utils.dart';
 
 part 'src/_core.dart';
 part 'src/_error/_api_error.dart';

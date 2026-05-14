@@ -136,7 +136,7 @@ class ApiResult<D> {
     Map<String, dynamic> map;
     try {
       map = jsonDecode(json);
-    } catch (e, stackTrace) {
+    } catch (e, _) {
       return ApiResult<D>.fromError(
         ApiError(
           statusCode: statusCode,
@@ -266,7 +266,7 @@ class ApiResult<D> {
   }
 
   ApiResult<F> convert<F>({required F Function(D data) converter}) {
-    F? fData = data == null ? null : converter(data!);
+    F? fData = data == null ? null : converter(data as D);
     return error == null
         ? ApiResult<F>.success(
           statusCode: statusCode,

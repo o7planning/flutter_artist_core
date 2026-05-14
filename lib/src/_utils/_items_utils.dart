@@ -390,7 +390,7 @@ class ItemsUtils {
     } else if (item1 != null && item2 == null) {
       return false;
     } else {
-      return getItemId(item1!) == getItemId(item2!);
+      return getItemId(item1 as ITEM) == getItemId(item2 as ITEM);
     }
   }
 

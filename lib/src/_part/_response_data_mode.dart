@@ -1,5 +1,6 @@
 part of '../../flutter_artist_core.dart';
 
+@Deprecated('Legacy enum. Will be removed soon.')
 enum ResponseDataMode {
   ///
   /// The expected data is wrapped inside.

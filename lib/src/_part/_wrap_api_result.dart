@@ -59,7 +59,7 @@ class WrapApiResult {
     Map<String, dynamic>? data;
     try {
       data = map['data'];
-    } catch (e, stackTrace) {
+    } catch (e, _) {
       return WrapApiResult.error(
         statusCode: statusCode,
         statusMessage: statusMessage,
@@ -85,7 +85,7 @@ class WrapApiResult {
     Map<String, dynamic> map;
     try {
       map = jsonDecode(json);
-    } catch (e, stackTrace) {
+    } catch (e, _) {
       return WrapApiResult.error(
         statusCode: statusCode,
         statusMessage: statusMessage,
