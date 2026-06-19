@@ -1,6 +1,6 @@
 part of '../../flutter_artist_core.dart';
 
-class ItemsUtils {
+class FaItemsUtils {
   static int getFirstIndexOfItemById<ITEM, ID>({
     required ID? itemId,
     required List<ITEM> targetList,

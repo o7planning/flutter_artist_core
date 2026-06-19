@@ -191,7 +191,7 @@ class ApiResult<D> {
             statusMessage: statusMessage,
             errorType: ApiErrorType.conversion,
             errorMessage: "Data Convert error: $e",
-            originErrorText: JsonUtils.jsonEncodeMap(map: map),
+            originErrorText: FaJsonUtils.jsonEncodeMap(map: map),
             usedConverter: dataConverter,
           ),
         );

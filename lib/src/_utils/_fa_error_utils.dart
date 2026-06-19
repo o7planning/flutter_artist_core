@@ -1,6 +1,6 @@
 part of '../../flutter_artist_core.dart';
 
-class ErrorUtils {
+class FaErrorUtils {
   static AppError toAppError(Object error) {
     if (error is AppError) {
       return error;

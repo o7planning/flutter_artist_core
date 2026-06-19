@@ -1,6 +1,6 @@
 part of '../../flutter_artist_core.dart';
 
-class JsonUtils {
+class FaJsonUtils {
   static final _encoder = const JsonEncoder.withIndent("   ");
 
   static String? jsonEncodeMap({

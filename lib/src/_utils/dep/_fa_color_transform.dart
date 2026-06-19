@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+@Deprecated("No longer use")
 class FaColorTransform {
   // ===========================================================================
   // LIGHTNESS

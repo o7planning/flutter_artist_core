@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '_fa_color_transform.dart';
 
+@Deprecated("No longer use")
 extension FaColorExtension on Color {
   // ===========================================================================
   // LIGHTNESS

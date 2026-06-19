@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_artist_core/src/_utils/_fa_color_resolvers.dart';
+import 'package:flutter_artist_core/src/_utils/dep/_fa_color_resolvers.dart';
 
 /// FaColorUtils provides a semantic color system for the FlutterArtist library.
 ///
@@ -44,6 +44,7 @@ import 'package:flutter_artist_core/src/_utils/_fa_color_resolvers.dart';
 /// }
 /// ```
 /// Docs: [14893].
+@Deprecated("No longer use")
 class FaColorUtils {
   // ===========================================================================
   // BACKGROUND & SURFACE

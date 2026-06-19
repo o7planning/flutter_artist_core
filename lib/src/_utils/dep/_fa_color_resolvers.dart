@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 typedef FaColorResolver = Color Function(BuildContext context);
 
+@Deprecated("No longer use")
 class FaColorResolvers {
   // ===========================================================================
   // BACKGROUND & SURFACE

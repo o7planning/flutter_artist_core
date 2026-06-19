@@ -1,6 +1,6 @@
 name: flutter_artist_core
-description: "Flutter Artist Core."
-version: 0.9.1
+description: The core foundational engineering engine of the FlutterArtist ecosystem. It encapsulates enterprise-grade generic collection structures, resilient JSON validation error extractors, flexible pagination models, and decoupled architecture adapter gateways for authentication, overlays, and notification service layers.
+version: 1.0.0
 resolution: workspace
 homepage: https://o7planning.github.io
 #repository:

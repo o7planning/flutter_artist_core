@@ -1,6 +1,6 @@
 part of '../../flutter_artist_core.dart';
 
-class MapUtils {
+class FaMapUtils {
   static bool isIdenticalValues({
     required Map<String, dynamic> map1,
     required Map<String, dynamic> map2,
