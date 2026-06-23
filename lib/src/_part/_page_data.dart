@@ -1,89 +1,21 @@
 part of '../../flutter_artist_core.dart';
 
-abstract class PageData<ITEM> {
-  List<ITEM> get items;
+/// A specialized [ListData] that additionally includes pagination metadata.
+class PageData<ITEM> {
+  final List<ITEM> items;
+  final PaginationInfo? paginationInfo;
 
-  PaginationInfo? get paginationInfo;
+  // PageData( ): items: [] ,paginationInfo: PaginationInfo.empty() ) ;
 
-  PageData();
+  const PageData({required this.items, required this.paginationInfo});
+
+  factory PageData.empty() =>
+      PageData(items: const [], paginationInfo: PaginationInfo.empty());
 
   factory PageData.calculate({
     required int currentPage,
     required int pageSize,
     required List<ITEM> allItems,
-  }) {
-    return DefaultPageData.calculate(
-      currentPage: currentPage,
-      pageSize: pageSize,
-      allItems: allItems,
-    );
-  }
-
-  factory PageData.empty() {
-    return DefaultPageData.items(items: []);
-  }
-
-  factory PageData.ofItem(ITEM item) {
-    return DefaultPageData.item(item: item);
-  }
-
-  factory PageData.ofItems(List<ITEM> items) {
-    return DefaultPageData.items(items: items);
-  }
-
-  PageData<F> convert<F>({required F Function(ITEM data) converter}) {
-    List<F> fItems = items.map((item) => converter(item)).toList();
-    return DefaultPageData(paginationInfo: paginationInfo, items: fItems);
-  }
-}
-
-class DefaultPageData<I> extends PageData<I> {
-  final List<I> _items;
-  final PaginationInfo? _paginationInfo;
-
-  @override
-  List<I> get items => [..._items];
-
-  @override
-  PaginationInfo? get paginationInfo => _paginationInfo;
-
-  DefaultPageData({
-    required List<I> items,
-    required PaginationInfo? paginationInfo,
-  }) : _items = items,
-       _paginationInfo = paginationInfo;
-
-  DefaultPageData.items({required List<I> items})
-    : _items = items,
-      _paginationInfo = PaginationInfo(
-        currentPage: 1,
-        pageSize: items.length,
-        totalItems: items.length,
-        totalPages: 1,
-      );
-
-  DefaultPageData.item({required I item})
-    : _items = [item],
-      _paginationInfo = PaginationInfo(
-        currentPage: 1,
-        pageSize: 1,
-        totalItems: 1,
-        totalPages: 1,
-      );
-
-  DefaultPageData.empty()
-    : _items = [],
-      _paginationInfo = PaginationInfo(
-        currentPage: 1,
-        pageSize: 1,
-        totalItems: 0,
-        totalPages: 0,
-      );
-
-  factory DefaultPageData.calculate({
-    required int currentPage,
-    required int pageSize,
-    required List<I> allItems,
   }) {
     currentPage = currentPage < 1 ? 1 : currentPage;
     //
@@ -91,7 +23,7 @@ class DefaultPageData<I> extends PageData<I> {
 
     PaginationInfo paginationInfo;
     int totalPages;
-    List<I> items;
+    List<ITEM> items;
     if (pageSize <= 0) {
       totalPages = 1;
       if (currentPage > 1) {
@@ -126,6 +58,34 @@ class DefaultPageData<I> extends PageData<I> {
       }
     }
     //
-    return DefaultPageData(paginationInfo: paginationInfo, items: items);
+    return PageData(paginationInfo: paginationInfo, items: items);
   }
+
+  factory PageData.ofItem(ITEM item) {
+    final items = [item];
+    final paginationInfo = PaginationInfo(
+      currentPage: 1,
+      pageSize: 1,
+      totalItems: 1,
+      totalPages: 1,
+    );
+    return PageData(items: items, paginationInfo: paginationInfo);
+  }
+
+  factory PageData.ofItems(List<ITEM> items) {
+    final paginationInfo = PaginationInfo(
+      currentPage: 1,
+      pageSize: items.length,
+      totalItems: items.length,
+      totalPages: 1,
+    );
+    return PageData(items: items, paginationInfo: paginationInfo);
+  }
+
+  PageData<F> convert<F>({required F Function(ITEM data) converter}) {
+    List<F> fItems = items.map((item) => converter(item)).toList();
+    return PageData(paginationInfo: paginationInfo, items: fItems);
+  }
+
+  ListData<ITEM> toListData() => ListData<ITEM>(items: items);
 }

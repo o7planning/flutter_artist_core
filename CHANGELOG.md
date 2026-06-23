@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.0
+* Add class: PageMapping, ListData 
+
 ## 1.0.0
  * Rename ErrorUtils to FaErrorUtils
  * Rename ItemsUtils to FaItemsUtils

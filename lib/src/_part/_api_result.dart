@@ -86,6 +86,7 @@ class ApiResult<D> {
     required String? statusMessage,
     required dynamic data,
     required Converter? dataConverter,
+    bool printOriginDioStackTrace = true,
   }) {
     if (data == null) {
       return ApiResult<D>.success(
@@ -107,6 +108,7 @@ class ApiResult<D> {
         statusMessage: statusMessage,
         map: data,
         dataConverter: dataConverter,
+        printOriginDioStackTrace: printOriginDioStackTrace,
       );
     } else {
       // TODO: List??
@@ -178,13 +180,16 @@ class ApiResult<D> {
     required String? statusMessage,
     required Map<String, dynamic> map,
     required Converter? dataConverter,
+    bool printOriginDioStackTrace = true,
   }) {
     D? data;
     if (dataConverter != null) {
       try {
         data = dataConverter(map);
       } catch (e, stackTrace) {
-        print(stackTrace);
+        if (printOriginDioStackTrace) {
+          print(stackTrace);
+        }
         return ApiResult<D>.fromError(
           ApiError(
             statusCode: statusCode,
@@ -233,9 +238,7 @@ class ApiResult<D> {
 
   ApiResult<PageData<D>> toPageDataResult() {
     PageData<D> pageData =
-        data == null
-            ? DefaultPageData.empty()
-            : DefaultPageData.item(item: data as D);
+        data == null ? PageData.empty() : PageData.ofItem(data as D);
     return error == null
         ? ApiResult<PageData<D>>.success(
           data: pageData,
@@ -274,5 +277,33 @@ class ApiResult<D> {
           data: fData,
         )
         : ApiResult<F>.fromError(error!);
+  }
+
+  /// Casts an ApiResult containing flat ListData into an ApiResult containing structured PageData.
+  static ApiResult<PageData<ITEM>> createPageDataResult<ITEM>(
+    ApiResult<ListData<ITEM>> listResult,
+  ) {
+    if (listResult.error != null) {
+      return ApiResult<PageData<ITEM>>.fromError(listResult.error!);
+    }
+    return ApiResult<PageData<ITEM>>.success(
+      statusCode: listResult.statusCode,
+      statusMessage: listResult.statusMessage,
+      data: listResult.data?.toPageData(),
+    );
+  }
+
+  /// Casts an ApiResult containing structured PageData into an ApiResult containing flat ListData.
+  static ApiResult<ListData<ITEM>> createListDataResult<ITEM>(
+    ApiResult<PageData<ITEM>> pageResult,
+  ) {
+    if (pageResult.error != null) {
+      return ApiResult<ListData<ITEM>>.fromError(pageResult.error!);
+    }
+    return ApiResult<ListData<ITEM>>.success(
+      statusCode: pageResult.statusCode,
+      statusMessage: pageResult.statusMessage,
+      data: pageResult.data?.toListData(),
+    );
   }
 }

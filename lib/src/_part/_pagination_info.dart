@@ -1,34 +1,23 @@
 part of '../../flutter_artist_core.dart';
 
-interface class PaginationInfo {
-  final int _currentPage;
-  final int _pageSize;
-  final int _totalItems;
-  final int _totalPages;
-
-  int get currentPage => _currentPage;
-
-  int get pageSize => _pageSize;
-
-  int get totalItems => _totalItems;
-
-  int get totalPages => _totalPages;
+class PaginationInfo {
+  final int currentPage;
+  final int pageSize;
+  final int totalItems;
+  final int totalPages;
 
   PaginationInfo({
-    required int currentPage,
-    required int pageSize,
-    required int totalItems,
-    required int totalPages,
-  }) : _currentPage = currentPage,
-       _pageSize = pageSize,
-       _totalItems = totalItems,
-       _totalPages = totalPages;
+    required this.currentPage,
+    required this.pageSize,
+    required this.totalItems,
+    required this.totalPages,
+  });
 
   PaginationInfo.empty()
-    : _currentPage = 1,
-      _pageSize = 0,
-      _totalItems = 0,
-      _totalPages = 0;
+    : currentPage = 1,
+      pageSize = 0,
+      totalItems = 0,
+      totalPages = 0;
 
   static PaginationInfo? copy(PaginationInfo? source) {
     return source == null
