@@ -7,6 +7,8 @@ enum ApiErrorType {
   /// It occurs when url is sent timeout.
   sendTimeout,
 
+  transformTimeout,
+
   /// It occurs when receiving timeout.
   receiveTimeout,
 
@@ -45,6 +47,8 @@ extension ApiErrorTypeE on ApiErrorType {
         return "Send Timeout";
       case ApiErrorType.receiveTimeout:
         return "Receive Timeout";
+      case ApiErrorType.transformTimeout:
+        return "Transform Timeout";
       case ApiErrorType.badCertificate:
         return "Bad Certificate";
       case ApiErrorType.badResponse:
@@ -69,6 +73,7 @@ extension ApiErrorTypeE on ApiErrorType {
       case ApiErrorType.connectionTimeout:
       case ApiErrorType.sendTimeout:
       case ApiErrorType.receiveTimeout:
+      case ApiErrorType.transformTimeout:
       case ApiErrorType.badCertificate:
       case ApiErrorType.badResponse:
       case ApiErrorType.cancel:

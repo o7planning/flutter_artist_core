@@ -1,6 +1,6 @@
 part of '../../flutter_artist_core.dart';
 
-/// A specialized [ListData] that additionally includes pagination metadata.
+
 class PageData<ITEM> {
   final List<ITEM> items;
   final PaginationInfo? paginationInfo;

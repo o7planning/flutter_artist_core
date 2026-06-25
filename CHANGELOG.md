@@ -1,7 +1,12 @@
 # Changelog
 
+## 3.0.0
+
+* Add classes: FaItemConverters, FaJsonConverters,..
+
+
 ## 2.0.0
-* Add class: PageMapping, ListData 
+* Add classes: PageMapping, ListData 
 
 ## 1.0.0
  * Rename ErrorUtils to FaErrorUtils

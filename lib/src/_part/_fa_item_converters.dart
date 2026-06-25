@@ -1,9 +1,9 @@
 part of '../../flutter_artist_core.dart';
 
 /// A centralized utility ledger repository containing pre-built, production-grade
-/// [FaDataConverter] implementations for primitive Dart types and dynamic mapping layouts.
-class FaDataConverters {
-  FaDataConverters._();
+/// [FaItemConverter] implementations for primitive Dart types and dynamic mapping layouts.
+class FaItemConverters {
+  FaItemConverters._();
 
   /// A strict primitive [String] data converter instance.
   /// Throws an [ApiError] if the incoming data payload is null or cannot be stringified.
@@ -24,11 +24,11 @@ class FaDataConverters {
   /// ```dart
   /// ApiResult<ListData<String>> result = await flutterArtistDio.jsonGetList(
   ///   "/api/v1/projects/tags",
-  ///   converter: FaDataConverters.toStringConverter,
+  ///   converter: FaItemConverters.toStringConverter,
   /// );
   /// ```
   // ignore: prefer_function_declarations_over_variables
-  static final FaDataConverter<String> toStringConverter = (dynamic data) {
+  static final FaItemConverter<String> toStringConverter = (dynamic data) {
     if (data == null) {
       throw ApiError(
         errorType: ApiErrorType.conversion,
@@ -64,11 +64,11 @@ class FaDataConverters {
   /// ```dart
   /// ApiResult<PageData<int>> result = await flutterArtistDio.jsonGetPage(
   ///   "/api/v1/systems/active-ids",
-  ///   converter: FaDataConverters.toIntConverter,
+  ///   converter: FaItemConverters.toIntConverter,
   /// );
   /// ```
   // ignore: prefer_function_declarations_over_variables
-  static final FaDataConverter<int> toIntConverter = (dynamic data) {
+  static final FaItemConverter<int> toIntConverter = (dynamic data) {
     if (data == null) {
       throw ApiError(
         errorType: ApiErrorType.conversion,
@@ -102,11 +102,11 @@ class FaDataConverters {
   /// ```dart
   /// ApiResult<double> result = await flutterArtistDio.jsonGet(
   ///   "/api/v1/analytics/ratio",
-  ///   converter: FaDataConverters.toDoubleConverter,
+  ///   converter: FaItemConverters.toDoubleConverter,
   /// );
   /// ```
   // ignore: prefer_function_declarations_over_variables
-  static final FaDataConverter<double> toDoubleConverter = (dynamic data) {
+  static final FaItemConverter<double> toDoubleConverter = (dynamic data) {
     if (data == null) {
       throw ApiError(
         errorType: ApiErrorType.conversion,
@@ -142,11 +142,11 @@ class FaDataConverters {
   /// ```dart
   /// ApiResult<bool> result = await flutterArtistDio.jsonGet(
   ///   "/api/v1/system/maintenance-mode",
-  ///   converter: FaDataConverters.toBoolConverter,
+  ///   converter: FaItemConverters.toBoolConverter,
   /// );
   /// ```
   // ignore: prefer_function_declarations_over_variables
-  static final FaDataConverter<bool> toBoolConverter = (dynamic data) {
+  static final FaItemConverter<bool> toBoolConverter = (dynamic data) {
     if (data == null) {
       throw ApiError(
         errorType: ApiErrorType.conversion,
@@ -188,7 +188,7 @@ class FaDataConverters {
   /// ```dart
   /// ApiResult<DateTime> result = await flutterArtistDio.jsonGet(
   ///   "/api/v1/system/server-time",
-  ///   converter: FaDataConverters.toDateTimeConverter(),
+  ///   converter: FaItemConverters.toDateTimeConverter(),
   /// );
   /// ```
   ///
@@ -196,10 +196,10 @@ class FaDataConverters {
   /// ```dart
   /// ApiResult<DateTime> result = await flutterArtistDio.jsonGet(
   ///   "/api/v1/legacy/created-at",
-  ///   converter: FaDataConverters.toDateTimeConverter(pattern: "dd/MM/yyyy HH:mm:ss"),
+  ///   converter: FaItemConverters.toDateTimeConverter(pattern: "dd/MM/yyyy HH:mm:ss"),
   /// );
   /// ```
-  static FaDataConverter<DateTime> toDateTimeConverter({String? pattern}) {
+  static FaItemConverter<DateTime> toDateTimeConverter({String? pattern}) {
     return (dynamic data) {
       if (data == null) {
         throw ApiError(
@@ -278,11 +278,11 @@ class FaDataConverters {
   /// ```dart
   /// ApiResult<PageData<DateTime>> result = await flutterArtistDio.jsonGetPage(
   ///   "/api/v1/reports/available-days",
-  ///   converter: FaDataConverters.toDateConverter(pattern: "yyyy-MM-dd"),
+  ///   converter: FaItemConverters.toDateConverter(pattern: "yyyy-MM-dd"),
   /// );
   /// ```
-  static FaDataConverter<DateTime> toDateConverter({String? pattern}) {
-    final FaDataConverter<DateTime> baseDateTimeConverter = toDateTimeConverter(
+  static FaItemConverter<DateTime> toDateConverter({String? pattern}) {
+    final FaItemConverter<DateTime> baseDateTimeConverter = toDateTimeConverter(
       pattern: pattern,
     );
     return (dynamic data) {
@@ -291,7 +291,7 @@ class FaDataConverters {
     };
   }
 
-  /// Safely transforms a standard [FaJsonConverter] into a production-grade [FaDataConverter]
+  /// Safely transforms a standard [FaJsonConverter] into a production-grade [FaItemConverter]
   /// with defensive runtime validation boundaries.
   ///
   /// This method bridges complex object parsers (such as `json_serializable` factory contexts)
@@ -362,7 +362,7 @@ class FaDataConverters {
   /// ApiResult<PageData<CurrencyInfo>> result = await flutterArtistDio.jsonGetPage(
   ///   "/rest/page/currency-info/search",
   ///   queryParameters: queryParameters,
-  ///   converter: FaDataConverters.fromJsonConverter(CurrencyInfo.fromJson),
+  ///   converter: FaItemConverters.fromJsonConverter(CurrencyInfo.fromJson),
   /// );
   /// ```
   ///
@@ -374,20 +374,20 @@ class FaDataConverters {
   ///
   /// ApiResult<CurrencyInfo> result = await flutterArtistDio.jsonGet(
   ///   "/rest/record/currency-data/USD",
-  ///   converter: currencyInfoConverter.toDataConverter(),
+  ///   converter: currencyInfoConverter.toItemConverter(),
   /// );
   ///
   /// // Option B: Via direct inline call (Compilation succeeds, but IDE Autocomplete might vary)
   /// ApiResult<CurrencyInfo> result = await flutterArtistDio.jsonGet(
   ///   "/rest/record/currency-data/USD",
-  ///   converter: CurrencyInfo.fromJson.toDataConverter(),
+  ///   converter: CurrencyInfo.fromJson.toItemConverter(),
   /// );
   /// ```
-  static FaDataConverter<D?> fromJsonConverter<D>(
-    FaJsonConverter<D> mapConverter,
+  static FaItemConverter<D?> fromJsonConverter<D>(
+    FaJsonConverter<D> jsonConverter,
   ) {
     // ignore: prefer_function_declarations_over_variables
-    final FaDataConverter<D?> converter = (data) {
+    final FaItemConverter<D?> converter = (data) {
       // FIX: Safe boundary shortcut shield for null payloads
       if (data == null) return null;
       if (data is! Map<String, dynamic>) {
@@ -398,7 +398,7 @@ class FaDataConverters {
               "Map<String, dynamic> object layout schema, but encountered runtime type: ${data.runtimeType}",
         );
       }
-      return mapConverter(data);
+      return jsonConverter(data);
     };
     return converter;
   }

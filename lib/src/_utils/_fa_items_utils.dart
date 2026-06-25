@@ -174,6 +174,20 @@ class FaItemsUtils {
     );
   }
 
+  static void removeItemsFromListByIds<ITEM, ID>({
+    required List<ID> removeItemIds,
+    required List<ITEM> targetList,
+    required ID Function(ITEM item) getItemId,
+  }) {
+    for (ID removeItemId in removeItemIds) {
+      removeItemFromListById(
+        removeItemId: removeItemId,
+        targetList: targetList,
+        getItemId: getItemId,
+      );
+    }
+  }
+
   static void removeItemsFromList<ITEM, ID>({
     required List<ITEM> removeItems,
     required List<ITEM> targetList,
@@ -188,17 +202,20 @@ class FaItemsUtils {
     }
   }
 
+  static void removeItemFromListById<ITEM, ID>({
+    required ID removeItemId,
+    required List<ITEM> targetList,
+    required ID Function(ITEM item) getItemId,
+  }) {
+    targetList.removeWhere((it) => getItemId(it) == removeItemId);
+  }
+
   static void removeItemFromList<ITEM, ID>({
     required ITEM removeItem,
     required List<ITEM> targetList,
     required ID Function(ITEM item) getItemId,
   }) {
-    int idx = targetList.indexWhere((it) {
-      return getItemId(it) == getItemId(removeItem);
-    });
-    if (idx != -1) {
-      targetList.removeAt(idx);
-    }
+    targetList.removeWhere((it) => getItemId(it) == getItemId(removeItem));
   }
 
   static void insertOrReplaceItemInList<ITEM, ID>({
