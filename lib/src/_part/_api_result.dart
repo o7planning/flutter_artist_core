@@ -81,78 +81,36 @@ class ApiResult<D> {
       statusMessage = error.statusMessage,
       data = null;
 
-  factory ApiResult.fromDynamicData({
+  factory ApiResult.fromData({
     required int? statusCode,
     required String? statusMessage,
     required dynamic data,
-    required Converter? dataConverter,
+    required FaDataConverter? dataConverter,
     bool printOriginDioStackTrace = true,
   }) {
-    if (data == null) {
-      return ApiResult<D>.success(
-        statusCode: statusCode,
-        statusMessage: statusMessage,
-        data: null,
-      );
-    }
-    if (data is String) {
-      return ApiResult.fromJson(
-        statusCode: statusCode,
-        statusMessage: statusMessage,
-        json: data,
-        dataConverter: dataConverter,
-      );
-    } else if (data is Map<String, dynamic>) {
-      return ApiResult.fromMap(
-        statusCode: statusCode,
-        statusMessage: statusMessage,
-        map: data,
-        dataConverter: dataConverter,
-        printOriginDioStackTrace: printOriginDioStackTrace,
-      );
-    } else {
-      // TODO: List??
-      return ApiResult<D>.fromError(
-        ApiError(
-          statusCode: statusCode,
-          statusMessage: statusMessage,
-          errorMessage: "Not support response data type ${data.runtimeType}",
-        ),
-      );
-    }
-  }
-
-  factory ApiResult.fromJson({
-    required int? statusCode,
-    required String? statusMessage,
-    required String json,
-    required Converter? dataConverter,
-  }) {
-    if (json.trim().isEmpty) {
-      return ApiResult.success(
-        statusCode: statusCode,
-        statusMessage: statusMessage,
-        data: null,
-      );
-    }
-    Map<String, dynamic> map;
+    D? retData;
     try {
-      map = jsonDecode(json);
-    } catch (e, _) {
+      retData = dataConverter?.call(data);
+    } catch (e, stackTrace) {
+      if (printOriginDioStackTrace) {
+        print(stackTrace);
+      }
       return ApiResult<D>.fromError(
         ApiError(
           statusCode: statusCode,
           statusMessage: statusMessage,
-          errorType: ApiErrorType.notJson,
-          errorMessage: "Not JSON: $e",
+          errorType: ApiErrorType.conversion,
+          errorMessage: "Data Convert error: $e",
+          originErrorText: _toString(data: data, defaultString: null),
+          usedConverter: dataConverter,
         ),
       );
     }
-    return ApiResult.fromMap(
+    //
+    return ApiResult<D>.success(
       statusCode: statusCode,
       statusMessage: statusMessage,
-      map: map,
-      dataConverter: dataConverter,
+      data: retData,
     );
   }
 
@@ -175,38 +133,36 @@ class ApiResult<D> {
   /// }
   /// ```
   ///
-  factory ApiResult.fromMap({
+  factory ApiResult.fromJson({
     required int? statusCode,
     required String? statusMessage,
     required Map<String, dynamic> map,
-    required Converter? dataConverter,
+    required FaJsonConverter? jsonConverter,
     bool printOriginDioStackTrace = true,
   }) {
-    D? data;
-    if (dataConverter != null) {
-      try {
-        data = dataConverter(map);
-      } catch (e, stackTrace) {
-        if (printOriginDioStackTrace) {
-          print(stackTrace);
-        }
-        return ApiResult<D>.fromError(
-          ApiError(
-            statusCode: statusCode,
-            statusMessage: statusMessage,
-            errorType: ApiErrorType.conversion,
-            errorMessage: "Data Convert error: $e",
-            originErrorText: FaJsonUtils.jsonEncodeMap(map: map),
-            usedConverter: dataConverter,
-          ),
-        );
+    D? retData;
+    try {
+      retData = jsonConverter?.call(map);
+    } catch (e, stackTrace) {
+      if (printOriginDioStackTrace) {
+        print(stackTrace);
       }
+      return ApiResult<D>.fromError(
+        ApiError(
+          statusCode: statusCode,
+          statusMessage: statusMessage,
+          errorType: ApiErrorType.conversion,
+          errorMessage: "Data Convert error: $e",
+          originErrorText: FaJsonUtils.jsonEncodeMap(map: map),
+          usedConverter: jsonConverter,
+        ),
+      );
     }
     //
     return ApiResult<D>.success(
       statusCode: statusCode,
       statusMessage: statusMessage,
-      data: data,
+      data: retData,
     );
   }
 
@@ -306,4 +262,17 @@ class ApiResult<D> {
       data: pageResult.data?.toListData(),
     );
   }
+}
+
+String? _toString({required dynamic data, String? defaultString}) {
+  if (data == null) {
+    return defaultString;
+  }
+  if (data is String) {
+    return data;
+  }
+  if (data is Map<String, dynamic>) {
+    return FaJsonUtils.jsonEncodeMap(map: data, defaultString: defaultString);
+  }
+  return data.toString();
 }

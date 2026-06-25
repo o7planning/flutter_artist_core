@@ -13,7 +13,7 @@ class ApiError extends AppError {
   int? statusCode;
   String? statusMessage;
   String? originErrorText;
-  dynamic Function(Map<String, dynamic> value)? usedConverter;
+  FaJsonConverter? usedConverter;
 
   ApiError({
     this.statusCode,
