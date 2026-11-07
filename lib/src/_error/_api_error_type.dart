@@ -6,7 +6,6 @@ enum ApiErrorType {
 
   /// It occurs when url is sent timeout.
   sendTimeout,
-
   transformTimeout,
 
   /// It occurs when receiving timeout.

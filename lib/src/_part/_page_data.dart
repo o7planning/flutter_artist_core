@@ -1,6 +1,5 @@
 part of '../../flutter_artist_core.dart';
 
-
 class PageData<ITEM> {
   final List<ITEM> items;
   final PaginationInfo? paginationInfo;
