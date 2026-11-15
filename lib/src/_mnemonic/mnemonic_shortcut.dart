@@ -3,50 +3,190 @@ part of '_mnemonic.dart';
 /// Standardized semantic commands triggered via keyboard shortcuts across
 /// [Block], [Scalar], [FilterModel], [Task], and [Prozess] views.
 enum MnemonicShortcut {
+  // --- Global Navigation ---
+  back(
+    MnemonicShortcutGroup.globalNavigation,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyB,
+    'B',
+    'Navigate Back / Close',
+  ),
+
   // --- Block & Form Operations ---
-  back(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyB, 'B'),
-  create(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyC, 'C'),
-  edit(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyE, 'E'),
-  delete(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyD, 'D'),
-  save(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyS, 'S'),
-  reset(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyU, 'U'),
-  refresh(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyR, 'R'),
-  query(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyQ, 'Q'),
+  create(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyC,
+    'C',
+    'Create New Item',
+  ),
+  edit(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyE,
+    'E',
+    'Edit Current Item',
+  ),
+  delete(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyD,
+    'D',
+    'Delete Current Item',
+  ),
+  save(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyS,
+    'S',
+    'Save Form Changes',
+  ),
+  reset(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyU,
+    'U',
+    'Reset Form Changes',
+  ),
+  refresh(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyR,
+    'R',
+    'Refresh Current Item / Stage',
+  ),
+  query(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyQ,
+    'Q',
+    'Re-Query Data',
+  ),
 
   // --- Data Grid & Pagination Navigation ---
-  // --- Data Grid & Pagination Navigation ---
-  // 1. Lật bản ghi (Next/Prev Item) - Dùng trơn
-  previousItem(MnemonicModifier.none, LogicalKeyboardKey.pageUp, 'PgUp'),
-  nextItem(MnemonicModifier.none, LogicalKeyboardKey.pageDown, 'PgDn'),
-
-  // 2. Lật trang / Tải thêm (Load More) - Dùng ALT thay vì MNEMONIC để né Ctrl của Mac
-  // Trên Mac: Option + Fn + Up / Down (hoặc Option + PageUp/PageDown)
-  // Trên Win: Alt + Page Up / Down
-  previousPage(MnemonicModifier.alt, LogicalKeyboardKey.pageUp, 'PgUp'),
-  nextPage(MnemonicModifier.alt, LogicalKeyboardKey.pageDown, 'PgDn'),
-
-  // 3. Nhảy về đầu/cuối danh sách
-  firstPage(MnemonicModifier.none, LogicalKeyboardKey.home, 'Home'),
-  loadMore(MnemonicModifier.none, LogicalKeyboardKey.end, 'End'),
+  previousItem(
+    MnemonicShortcutGroup.fieldAndItemNavigation,
+    MnemonicModifier.none,
+    LogicalKeyboardKey.pageUp,
+    'PgUp',
+    'Select Previous Item',
+  ),
+  nextItem(
+    MnemonicShortcutGroup.fieldAndItemNavigation,
+    MnemonicModifier.none,
+    LogicalKeyboardKey.pageDown,
+    'PgDn',
+    'Select Next Item',
+  ),
+  previousPage(
+    MnemonicShortcutGroup.fieldAndItemNavigation,
+    MnemonicModifier.alt,
+    LogicalKeyboardKey.pageUp,
+    'PgUp',
+    'Previous Page',
+  ),
+  nextPage(
+    MnemonicShortcutGroup.fieldAndItemNavigation,
+    MnemonicModifier.alt,
+    LogicalKeyboardKey.pageDown,
+    'PgDn',
+    'Next Page',
+  ),
+  firstPage(
+    MnemonicShortcutGroup.fieldAndItemNavigation,
+    MnemonicModifier.none,
+    LogicalKeyboardKey.home,
+    'Home',
+    'First Page / Top',
+  ),
+  loadMore(
+    MnemonicShortcutGroup.fieldAndItemNavigation,
+    MnemonicModifier.none,
+    LogicalKeyboardKey.end,
+    'End',
+    'Load More Items',
+  ),
 
   // --- Task / Prozess Operations ---
-  submit(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyS, 'S'),
-  restart(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyR, 'R'),
-  restartAll(MnemonicModifier.mnemonicShift, LogicalKeyboardKey.keyR, 'R'),
-  moveToNextStage(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyN, 'N'),
-  moveToPreviousStage(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyP, 'P'),
-  cancel(MnemonicModifier.mnemonic, LogicalKeyboardKey.keyX, 'X'),
+  submit(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyS,
+    'S',
+    'Submit Task / Viewing Stage',
+  ),
+  restart(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyR,
+    'R',
+    'Restart Task / Viewing Stage',
+  ),
+  restartAll(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonicShift,
+    LogicalKeyboardKey.keyR,
+    'R',
+    'Restart Entire Prozess',
+  ),
+  moveToNextStage(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyN,
+    'N',
+    'Move to Next Stage',
+  ),
+  moveToPreviousStage(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyP,
+    'P',
+    'Move to Previous Stage',
+  ),
+  cancel(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.keyX,
+    'X',
+    'Cancel Prozess',
+  ),
 
   // --- Developer & Diagnostic Tools ---
-  debugFilter(MnemonicModifier.mnemonic, LogicalKeyboardKey.digit1, '1'),
-  debugForm(MnemonicModifier.mnemonic, LogicalKeyboardKey.digit2, '2'),
-  debugInspector(MnemonicModifier.mnemonic, LogicalKeyboardKey.digit3, '3');
+  debugFilter(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.digit1,
+    '1',
+    'Inspect Filter Criteria / Model',
+  ),
+  debugForm(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.digit2,
+    '2',
+    'Inspect Form Model',
+  ),
+  debugInspector(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.digit3,
+    '3',
+    'Inspect Prozess Context',
+  );
 
+  final MnemonicShortcutGroup group;
   final MnemonicModifier modifier;
   final LogicalKeyboardKey triggerKey;
   final String keyDisplayLabel;
+  final String actionLabel;
 
-  const MnemonicShortcut(this.modifier, this.triggerKey, this.keyDisplayLabel);
+  const MnemonicShortcut(
+    this.group,
+    this.modifier,
+    this.triggerKey,
+    this.keyDisplayLabel,
+    this.actionLabel,
+  );
 
   /// Builds a Flutter [SingleActivator] for this command on the given [platform].
   SingleActivator toActivator({
@@ -60,43 +200,40 @@ enum MnemonicShortcut {
     );
   }
 
-  /// Returns the platform-adapted shortcut label (e.g., `"Alt + S"` on Windows, `"Ctrl + S"` on macOS).
-  String get shortcutLabel => '${modifier.label} + $keyDisplayLabel';
+  /// Returns the platform-adapted shortcut label (e.g., `"Alt + S"`, `"Ctrl + S"`, or `"PgDn"`).
+  String get shortcutLabel {
+    if (modifier == MnemonicModifier.none) {
+      return keyDisplayLabel;
+    }
+    return '${modifier.label} + $keyDisplayLabel';
+  }
+
+  /// Returns individual keycap tokens for rendering visual key badges (e.g., `['Alt', 'S']` or `['PgDn']`).
+  List<String> get keyCaps {
+    if (modifier == MnemonicModifier.none) {
+      return [keyDisplayLabel];
+    }
+    return [...modifier.label.split('+').map((e) => e.trim()), keyDisplayLabel];
+  }
 
   /// Formats a base tooltip with the shortcut suffix, e.g., `"Save (Alt + S)"`.
   String formatTooltip(String baseTooltip) => '$baseTooltip ($shortcutLabel)';
 
-  // /// Evaluates whether the given [event] and [keyboard] state match this command.
-  // bool matches(KeyEvent event, HardwareKeyboard keyboard) {
-  //   if (event is! KeyDownEvent) return false;
-  //   if (!modifier.isPressed(keyboard)) return false;
-  //
-  //   // Match either by logicalKey or by physical key equivalent to remain
-  //   // resilient against IME / keyboard layout remapping.
-  //   if (event.logicalKey == triggerKey) return true;
-  //
-  //   final String? physicalName = event.physicalKey.debugName;
-  //   if (physicalName != null) {
-  //     if (physicalName == 'Key $keyDisplayLabel' ||
-  //         physicalName == 'Digit $keyDisplayLabel') {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
+  /// Converts this enum command into a [MnemonicShortcutDescriptor].
+  MnemonicShortcutDescriptor toDescriptor({String? customActionLabel}) {
+    return MnemonicShortcutDescriptor(
+      group: group,
+      actionLabel: customActionLabel ?? actionLabel,
+      keyCaps: keyCaps,
+    );
+  }
 
-  // Trong mnemonic_shortcut.dart
   bool matches(KeyEvent event, HardwareKeyboard keyboard) {
-    // CHO PHÉP CẢ GÕ VÀ GIỮ PHÍM (KeyRepeatEvent)
     if (event is! KeyDownEvent && event is! KeyRepeatEvent) return false;
-
-    // Kiểm tra modifier (Ctrl / Alt)
     if (!modifier.isPressed(keyboard)) return false;
 
-    // Khớp Logical Key (Bắt hoàn hảo Arrow, PageUp, Home, End...)
     if (event.logicalKey == triggerKey) return true;
 
-    // Fallback chống trôi phím vật lý (cho các phím chữ/số A-Z)
     final String? physicalName = event.physicalKey.debugName;
     if (physicalName != null) {
       if (physicalName == 'Key $keyDisplayLabel' ||
