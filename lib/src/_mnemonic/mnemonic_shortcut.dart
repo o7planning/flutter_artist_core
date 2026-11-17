@@ -152,18 +152,25 @@ enum MnemonicShortcut {
   ),
 
   // --- Developer & Diagnostic Tools ---
-  debugFilter(
+  debugFilterModel(
     MnemonicShortcutGroup.actions,
     MnemonicModifier.mnemonic,
     LogicalKeyboardKey.digit1,
     '1',
-    'Inspect Filter Criteria / Model',
+    'Inspect Filter Model',
   ),
-  debugForm(
+  debugFilterCriteria(
     MnemonicShortcutGroup.actions,
     MnemonicModifier.mnemonic,
     LogicalKeyboardKey.digit2,
     '2',
+    'Inspect Filter Criteria',
+  ),
+  debugFormModel(
+    MnemonicShortcutGroup.actions,
+    MnemonicModifier.mnemonic,
+    LogicalKeyboardKey.digit3,
+    '3',
     'Inspect Form Model',
   ),
   debugInspector(
